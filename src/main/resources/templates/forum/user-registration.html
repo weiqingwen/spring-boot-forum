@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+</head>
+<body>
+	<div class="panel panel-default panel-bg">
+		<div th:replace="fragments/header :: header"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="container-fluid">
+								<h3>新用户注册</h3>
+								<form action="#" th:action="@{/user/registration}" th:object="${userDto}" method="post">
+									<div class="row form-group">
+										<div class="col-xs-6">
+											<input type="text" th:field="*{username}" class="form-control" placeholder="用户名" autofocus="autofocus"/>
+										</div>
+										<div class="col-xs-6">
+											<span class="label label-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</span>
+										</div>
+									</div>
+									
+									<div class="row form-group">
+										<div class="col-xs-6">
+											<input th:field="*{email}" type="text" class="form-control" placeholder="Email"/>
+										</div>
+										<div class="col-xs-6">
+											<span class="label label-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</span>
+										</div>
+									</div>
+									
+	                                <div class="row form-group">
+                                        <div class="col-xs-6">
+                                             <input th:field="*{password}" type="password" class="form-control" placeholder="密码"/>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <span class="label label-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row form-group">
+                                        <div class="col-xs-6">
+                                             <input th:field="*{matchingPassword}" type="password" class="form-control" placeholder="密码（重复）"/>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <span class="label label-warning" th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}">Password Confirmation Error</span>
+                                        </div>
+                                    </div>
+	                                
+									<div class="row form-group">
+										<div class="col-xs-6">
+											<input class="btn btn-success" type="submit" value="注册" />
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="panel panel-default">
+						<div class="panel-heading">消息</div>
+						<div class="panel-body">消息内容</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">消息</div>
+						<div class="panel-body">消息内容</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

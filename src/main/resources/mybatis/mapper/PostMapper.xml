@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingwenwei.persistence.dao.PostMapper">
+    
+    <resultMap id="PostResultMap" type="com.qingwenwei.persistence.model.Post">
+        <id property="id" column="post_id"/>
+        <result property="title" column="post_title"/>
+        <result property="body" column="post_body"/>
+        <result property="dateCreated" column="post_date_created"/>
+        <result property="commentCount" column="post_comment_count"/>
+        <result property="hitCount" column="post_hit_count"/>
+        <association property="user" column="post_user_id" javaType="com.qingwenwei.persistence.model.User">
+            <id property="id" column="user_id"/>
+            <result property="username" column="user_username"/>
+            <result property="avatarLocation" column="user_avatar_location"/>
+        </association>  
+        <association property="category" column="post_category_id" javaType="com.qingwenwei.persistence.model.Category">
+            <id property="id" column="category_id"/>
+            <result property="name" column="category_name"/>
+            <result property="displayName" column="category_display_name"/>
+        </association>
+    </resultMap>
+    
+    <insert id="save">
+        INSERT INTO `T_POST` (title, body, date_created, user_id, category_id) VALUES (#{title}, #{body}, #{dateCreated}, #{user.id}, #{category.id})
+    </insert>
+    
+    <select id="findById" parameterType="Long" resultMap="PostResultMap">
+        SELECT
+	        p.id as post_id,
+	        p.title as post_title,
+	        p.body as post_body,
+	        p.date_created as post_date_created,
+	        p.comment_count as post_comment_count,
+	        p.hit_count as post_hit_count,
+	        u.id as user_id,
+	        u.username as user_username,
+	        u.avatar_location as user_avatar_location,
+	        c.id as category_id,
+	        c.name as category_name,
+	        c.display_name as category_display_name
+        FROM T_POST p
+        LEFT JOIN T_USER u ON p.user_id = u.id
+        LEFT JOIN T_CATEGORY c ON p.category_id = c.id
+        WHERE p.id = #{postId} 
+        ORDER BY p.date_created DESC
+    </select>
+    
+    <select id="findAll" resultMap="PostResultMap">
+        SELECT
+            p.id as post_id,
+            p.title as post_title,
+            p.body as post_body,
+            p.date_created as post_date_created,
+            p.comment_count as post_comment_count,
+            p.hit_count as post_hit_count,
+	        u.id as user_id,
+	        u.username as user_username,
+	        u.avatar_location as user_avatar_location,
+            c.name as category_name,
+            c.display_name as category_display_name
+        FROM T_POST p
+        LEFT JOIN T_USER u ON p.user_id = u.id
+        LEFT JOIN T_CATEGORY c ON p.category_id = c.id
+        ORDER BY p.date_created DESC
+    </select>
+    
+    <select id="findPostsByCategory" parameterType="String" resultMap="PostResultMap">
+        SELECT
+            p.id as post_id,
+            p.title as post_title,
+            p.body as post_body,
+            p.date_created as post_date_created,
+            p.comment_count as post_comment_count,
+            p.hit_count as post_hit_count,
+            u.id as user_id,
+            u.username as user_username,
+            u.avatar_location as user_avatar_location,
+            c.name as category_name,
+            c.display_name as category_display_name
+        FROM T_POST p
+        LEFT JOIN T_USER u ON p.user_id = u.id 
+        LEFT JOIN T_CATEGORY c ON p.category_id = c.id 
+        WHERE c.name = #{categoryName} 
+        ORDER BY p.date_created DESC
+    </select>
+    
+    <select id="findPostsByUserId" parameterType="Long" resultMap="PostResultMap">
+        SELECT
+            p.id as post_id,
+            p.title as post_title,
+            p.body as post_body,
+            p.date_created as post_date_created,
+            p.comment_count as post_comment_count,
+            p.hit_count as post_hit_count,
+            u.id as user_id,
+            u.username as user_username,
+            u.avatar_location as user_avatar_location,
+            c.name as category_name,
+            c.display_name as category_display_name
+        FROM T_POST p
+        LEFT JOIN T_USER u ON p.user_id = u.id 
+        LEFT JOIN T_CATEGORY c ON p.category_id = c.id 
+        WHERE p.user_id = #{userId} 
+        ORDER BY p.date_created DESC
+    </select>
+    
+    <select id="findPostsBetweenRange" parameterType="String" resultMap="PostResultMap">
+        SELECT
+            p.id as post_id,
+            p.title as post_title,
+            p.body as post_body,
+            p.date_created as post_date_created,
+            p.comment_count as post_comment_count,
+            p.hit_count as post_hit_count,
+            u.id as user_id,
+            u.username as user_username,
+            u.avatar_location as user_avatar_location,
+            c.name as category_name,
+            c.display_name as category_display_name
+        FROM T_POST p
+        LEFT JOIN T_USER u ON p.user_id = u.id 
+        LEFT JOIN T_CATEGORY c ON p.category_id = c.id 
+        WHERE p.date_created BETWEEN #{startDateStr} AND #{endDateStr} 
+        ORDER BY p.date_created DESC;
+    </select>
+    
+    <select id="countNumOfPostsByCategoryId" parameterType="Long" resultType="Long">
+        SELECT COUNT(p.id) FROM T_POST p WHERE p.category_id = #{categoryId};
+    </select>
+    
+    <select id="countNumOfPostsByMonth" parameterType="Integer" resultType="Long">
+        SELECT COUNT(p.id) FROM T_POST p WHERE MONTH(p.date_created) = #{month};
+    </select>
+        
+    <update id="update" parameterType="com.qingwenwei.persistence.model.Post">
+        UPDATE T_POST SET 
+	        title = #{title},
+	        body = #{body},
+	        date_created = #{dateCreated},
+	        user_id = #{user.id},
+	        category_id = #{category.id},
+	        comment_count = #{commentCount},
+	        hit_count = #{hitCount}
+        WHERE id = #{id}
+    </update>
+    
+    <delete id="delete" parameterType="Long">
+        DELETE FROM T_POST WHERE id = #{postId}
+    </delete>
+    
+</mapper>

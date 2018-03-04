@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:if="${activeTab == 'posts'}" id="dashboardPostsList" th:fragment="posts">
+    
+		<div class="container-fluid">
+		
+            <!-- date range picker -->
+            <div class="row form-group">
+                <div id="reportrange" class="pull-right selectbox" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
+				    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+				    <span></span> <b class="caret"></b>
+				</div>
+            </div>
+            
+			<!-- post edit result message -->
+			<div th:switch="${editResult}">
+			    <div th:case="'success'"> 
+			        <div class="alert alert-success alert-dismissible">
+			        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			           资料更新成功。
+			        </div>
+			    </div>
+			    <div th:case="'failure'"> 
+			        <div class="alert alert-danger alert-dismissible">
+			        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			           资料更新失败。
+			        </div>
+			    </div>
+			</div>
+            
+            <div th:if="${posts.size()==0}" class="centered"><h2>所选日期内没有内容</h2></div>
+            
+		    <ul class="list-group list-custom-corner">
+		        <li class="profile-list list-group-item side-borderless last-border" th:each="post:${posts}">
+		            <div class="media">
+		                <div class="media-body">
+		                    <div class="media-heading">
+		                        <a class="post-title" th:href="@{/post/{postId}(postId=${post.id})}" th:text="${post.title}">title</a>
+		                    </div>
+		                    <a class="post-tag"
+		                            th:href="@{/category/{categoryName}(categoryName=${post.category.name})}"
+		                            th:text="${post.category.displayName}"></a>
+		                    <span class="post-date" th:text="${'发布时间：' + post.dateFormat()}"></span>
+		                </div>
+		                <div class="media-right media-middle">
+		                    <button type="button" class="btn btn-primary editButton" data-toggle="modal" th:attr="data-post-id=${post.id}">编辑</button>
+		                </div>
+		                <div class="media-right media-middle">
+		                    <button type="button" class="btn btn-danger deleteButton" data-toggle="modal" 
+		                    th:attr="data-post-id=${post.id}, 
+		                    data-post-title=${post.title}, 
+		                    data-post-username=${post.user.username},
+		                    data-post-date=${post.dateCreated}">删除</button>
+		                </div>
+		            </div>
+		        </li>
+		    </ul>
+	    </div>
+    </div>
+</body>
+</html>

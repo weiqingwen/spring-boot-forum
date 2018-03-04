@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:if="${activeTab == 'stats'}" id="dashboardStats" th:fragment="stats">
+        <div id="canvas-holder" style="width:100%">
+            <div class="centered"><h3>分类帖子比例/数量</h3></div>
+            <canvas id="pieChart"></canvas>
+            <div class="centered"><h3>过去十二个月的帖子数量</h3></div>
+	        <canvas id="barChart"></canvas>
+        </div>
+        <script src="/custom/dashboard-charts.js"></script>
+        <script src="/custom/randomColor.min.js"></script>
+    </div>
+</body>
+</html>

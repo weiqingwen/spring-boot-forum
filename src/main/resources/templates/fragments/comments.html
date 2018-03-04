@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<body>
+<div id="comment-list" th:fragment="comments">
+
+    <!-- comments list -->
+	<div class="panel panel-default" th:hidden="${totalPages == 0} ? 'true' : 'false'">
+		<ul class="list-group list-custom-corner">
+		    <li class="list-group-item side-borderless last-border" th:each="comment, currNum : ${comments}">
+				<div class="media">
+					<div class="media-left">
+						<a th:href="@{/user/{username}(username=${comment.user.id})}">
+		                       <img class="media-object"
+							th:src="${'../' + comment.user.avatarLocation}" alt="profile_pic" class="img-rounded"
+							width="50" height="50">
+						</a>
+					</div>
+					<div class="media-body">
+						<div class="media-heading">
+							<a th:href="@{/user/{username}(username=${comment.user.id})}"
+								th:text="${comment.user.username}">commenter</a>
+								<small><i th:text="${#dates.format(comment.dateCreated, 'yyyy-MM-dd HH:mm')}"></i></small>
+							<div class="pull-right">
+								<small th:text="${'#' + (currNum.index + 1)}"></small>
+							</div>
+						</div>
+						<p th:text="${comment.body}"></p>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	
+	<!-- new comment -->
+	<div class="panel panel-default container-fluid" sec:authorize="isAuthenticated()">
+	   <div class="panel-body">
+	       <form action="#" th:action="@{__${#httpServletRequest.requestURI}__}" th:object="${commentDto}" method="post">
+                <div class="row form-group">
+                    <textarea th:field="*{comment}" class="form-control" rows="10" style="resize: none" placeholder="回复"></textarea>
+			    </div>
+			    <div class="row form-group pull-right">
+		            <input class="btn btn-primary text-right" type="submit" value="发表"/>
+			    </div>
+			</form>
+	   </div>
+	</div>
+	
+</div>
+</body>
+</html>

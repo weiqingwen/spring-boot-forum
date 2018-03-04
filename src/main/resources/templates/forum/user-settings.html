@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+</head>
+<script>
+$(function() {
+
+	  // We can attach the `fileselect` event to all file inputs on the page
+	  $(document).on('change', ':file', function() {
+	    var input = $(this),
+	        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+	        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+	    input.trigger('fileselect', [numFiles, label]);
+	  });
+
+	  // We can watch for our custom `fileselect` event like this
+	  $(document).ready( function() {
+	      $(':file').on('fileselect', function(event, numFiles, label) {
+
+	          var input = $(this).parents('.input-group').find(':text'),
+	              log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+	          if( input.length ) {
+	              input.val(log);
+	          } else {
+	              if( log ) alert(log);
+	          }
+
+	      });
+	  });
+	  
+	});
+</script>
+<body>
+	<div class="panel panel-default panel-bg">
+		<div th:replace="fragments/header :: header"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="container-fluid">
+							   <div th:switch="${uploadResultMessage}">
+	                                <div th:case="'uploadSuccess'"> 
+				                        <div class="alert alert-success alert-dismissible">
+				                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				                           资料更新成功。
+				                        </div>
+				                    </div>
+				                    <div th:case="'uploadFailure'"> 
+                                        <div class="alert alert-danger alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                           资料更新失败。
+                                        </div>
+                                    </div>
+			                    </div>
+			                    <div class="container-fluid">
+				                    <div class="row form-group">
+				                        <h3 th:text="${user.username}"></h3>
+				                    </div>
+									<form method="POST" enctype="multipart/form-data" action="/user/settings" th:object="${newUserSettingsDto}">
+                                        <table>
+						                    <tr>
+							                    <td width="100px" align="left">当前头像：</td>
+							                    <td width="180px" align="left"><img width="150px" height="150px" class="thumbnail" th:src="${'../' + user.avatarLocation}" alt="profile_file"></td>
+							                    <td width="120px" align="left"><img width="100px" height="100px" class="thumbnail" th:src="${'../' + user.avatarLocation}" alt="profile_file"></td>
+							                    <td align="left"><img width="50px" height="50px" class="thumbnail" th:src="${'../' + user.avatarLocation}" alt="profile_file"></td>
+						                    </tr>
+					                    </table>
+									    <div class="row form-group">
+											<div class="input-group">
+											<label class="input-group-btn">
+											    <span class="btn btn-primary">
+											        浏览&hellip;<input name="avatar" type="file" style="display: none;" accept="image/png,image/gif,image/jpeg,image/jpg">
+											        </span>
+											    </label>
+											    <input type="text" class="form-control" readonly>
+											</div>
+										</div>
+										<div class="row form-group">
+                                           <p>签名：</p>
+                                           <input th:field="*{bio}" type="text" class="form-control" placeholder="Bio" />
+                                        </div>
+                                        <div class="row form-group">
+                                           <p>Email：</p>
+                                           <input th:field="*{email}" type="text" class="form-control" placeholder="Email" />
+                                        </div>
+										<span class="pull-right">
+                                            <input class="btn btn-primary text-right" type="submit" value="更新资料"/>
+										</span>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="panel panel-default">
+						<div class="panel-heading">消息1</div>
+						<div class="panel-body">消息内容1</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

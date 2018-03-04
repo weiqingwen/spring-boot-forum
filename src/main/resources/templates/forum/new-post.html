@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+</head>
+<!-- bootstrap-select -->
+<link rel="stylesheet" href="/bootstrap-select/css/bootstrap-select.min.css">
+<script src="/bootstrap-select/js/bootstrap-select.min.js"></script>
+<script src="/bootstrap-select/js/i18n/defaults-zh_CN.min.js"></script>
+<body>
+    <div class="panel panel-default panel-bg">
+        <div th:replace="fragments/header :: header"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+	                <div class="panel panel-default">
+	                    <div class="panel-body">
+	                        <div class="container-fluid">
+	                            <form action="#" th:action="@{/new}" th:object="${postDto}" method="post">
+	                                <div class="row form-group">
+	                                    <input th:field="*{title}" type="text" class="form-control" placeholder="标题" />
+	                                    <span class="label label-warning" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</span>
+	                                </div>
+	                                <div class="row form-group">
+	                                    <textarea th:field="*{body}" class="form-control" rows="10" style="resize: vertical" placeholder="正文"></textarea>
+	                                    <span class="label label-warning" th:if="${#fields.hasErrors('body')}" th:errors="*{body}">Body Error</span>
+	                                </div>
+	                                <div class="row form-group">
+	                                    <span class="pull-left" th:hidden="${isQuickNewPost} ? 'false' : 'true'">
+		                                    <select th:field="*{category}" class="selectpicker" data-live-search="true">
+		                                        <option style="display:none" value=""> -- 请选择分类 -- </option>
+		                                        <option th:each="category:${categories}"
+		                                                th:value="${category.name}"
+		                                                th:text="${category.displayName}">category name</option>
+		                                    </select>
+	                                    </span>
+		                                <span class="pull-right">
+		                                    <input hidden="true" type="text" th:field="*{category}"/>
+			                                <input class="btn btn-primary text-right" type="submit" value="发表" />
+		                                </span>
+	                                </div>
+	                            </form>
+	                        </div>
+	                    </div>
+	                </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">消息1</div>
+                        <div class="panel-body">消息内容1</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div class="panel panel-default" th:fragment="posts">
+	
+		<div class="panel-body">
+			<div class="container">
+				<div th:switch="${pageType}">
+					<div th:case="'homePage'">
+						<div th:replace="fragments/category-nav :: category-nav"></div>
+					</div>
+					<div th:case="'categoryPage'">
+						<div th:replace="fragments/category-heading :: category-heading"></div>
+                    </div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- posts list -->
+		<div id="post-list">
+            <ul class="list-group list-custom-corner">
+                <li class="list-group-item side-borderless last-border" th:each="post:${posts}">
+                    <div class="media">
+                        <div class="media-left media-middle">
+		                    <a th:href="@{/user/{userId}(userId=${post.user.id})}"> <img class="media-object"
+		                        th:src="${'../' + post.user.avatarLocation}" alt="profile_pic" class="img-rounded"
+		                        width="50px" height="50px"></a>
+		                </div>
+		                <div class="media-body">
+                            <div class="media-heading">
+                                <a class="post-title" th:href="@{/post/{postId}(postId=${post.id})}" th:text="${post.title}">title</a>
+                            </div>
+                            <a class="post-tag"
+                                    th:href="@{/category/{categoryName}(categoryName=${post.category.name})}"
+                                    th:text="${post.category.displayName}"></a>
+                            <a class="post-user"
+                                    th:href="@{/user/{userId}(userId=${post.user.id})}"
+                                    th:text="${post.user.username}"></a>
+                            <span class="post-date" th:text="${'发布于 ' + post.dateFormat()}"></span>
+                        </div>
+                        <div class="media-right media-middle">
+                            <div th:if="${post.commentCount > 0}" th:text="${post.commentCount}" class="badge"></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+		
+		<!-- pagination -->
+		<div class="text-center">
+			<nav aria-label="Page navigation">
+				<ul class="pagination pagination-centered">
+					<li th:class="${isFirstPage} ? 'hidden' : ''">
+						<a th:href="@{?p={pn}(pn=${pageNum-1})}" aria-label="Previous">
+	                        <span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+					<li th:each="currPage : ${#numbers.sequence({pageNum + 2 < totalPages} ? pageNum : {totalPages - 2 < 1} ? 1 : totalPages - 2, 
+					{pageNum + 2 < totalPages} ? pageNum + 2 : totalPages)}">
+                        <a th:href="@{?p={pn}(pn=${currPage})}" th:text="${currPage}">page number</a>
+					</li>
+					<li th:class="${isLastPage} ? 'hidden' : ''">
+						<a th:href="@{?p={pn}(pn=${pageNum+1})}" aria-label="Next">
+	                        <span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		
+	</div>
+</body>
+</html>

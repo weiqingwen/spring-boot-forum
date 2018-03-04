@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingwenwei.persistence.dao.CommentMapper">
+    
+    <resultMap id="CommentResultMap" type="com.qingwenwei.persistence.model.Comment">
+        <id property="id" column="comment_id"/>
+        <result property="body" column="comment_body"/>
+        <result property="postId" column="comment_post_id"/>
+        <result property="dateCreated" column="comment_date_created"/>     
+        <association property="user" column="comment_user_id" javaType="com.qingwenwei.persistence.model.User">
+            <id property="id" column="user_id"/>
+            <result property="username" column="user_username"/>
+            <result property="avatarLocation" column="user_avatar_location"/>
+        </association> 
+    </resultMap>
+    
+    <insert id="save">
+        INSERT INTO `T_COMMENT` (post_id, user_id, body, date_created) VALUES (#{postId}, #{user.id}, #{body}, #{dateCreated})
+    </insert>
+    
+    <select id="countNumCommentsByPostId" parameterType="Long" resultType="Integer">
+        SELECT COUNT(*) FROM T_COMMENT WHERE post_id = #{postId};
+    </select>
+    
+    <select id="findCommentsByPostId" parameterType="Long" resultMap="CommentResultMap">
+        SELECT
+	        c.id as comment_id,
+	        c.post_id as comment_post_id,
+	        u.id as user_id,
+	        u.username as user_username,
+	        u.avatar_location as user_avatar_location,
+	        c.body as comment_body,
+	        c.date_created as comment_date_created
+        FROM T_COMMENT c
+        LEFT JOIN T_USER u ON c.user_id = u.id
+        WHERE c.post_id = #{postId}
+        ORDER BY c.date_created ASC
+    </select>
+    
+    <select id="findCommentsByUserId" parameterType="Long" resultMap="CommentResultMap">
+        SELECT
+            c.id as comment_id,
+            c.post_id as comment_post_id,
+            u.id as user_id,
+            u.username as user_username,
+            u.avatar_location as user_avatar_location,
+            c.body as comment_body,
+            c.date_created as comment_date_created
+        FROM T_COMMENT c
+        LEFT JOIN T_USER u ON c.user_id = u.id
+        WHERE c.user_id = #{userId}
+        ORDER BY c.date_created ASC
+    </select>
+    
+    <delete id="deleteCommentsByPostId" parameterType="Long">
+        DELETE FROM T_COMMENT WHERE post_id = #{postId}
+    </delete>    
+</mapper>

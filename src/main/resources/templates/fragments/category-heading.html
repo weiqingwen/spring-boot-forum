@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<body>
+    <div class="container" style="float: right;" th:fragment="category-heading">
+        <h3 th:text="${category.displayName}"></h3>
+        <a class="btn btn-default"
+	        th:if="${pageType} == 'categoryPage'" sec:authorize="isAuthenticated()"
+	        th:href="@{/new/{categoryName}(categoryName=${category.name})}">发布新帖</a>
+    </div>
+</body>
+</html>

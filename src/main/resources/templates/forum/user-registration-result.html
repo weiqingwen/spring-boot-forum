@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+</head>
+<body>
+    <div class="panel panel-default panel-bg">
+        <div th:replace="fragments/header :: header"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="container-fluid">
+                                <div th:switch="${userRegistrationResult}">
+                                    <div th:case="'success'"> 
+                                        <div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                           注册成功。
+                                        </div>
+                                    </div>
+                                    <div th:case="'failure'"> 
+                                        <div class="alert alert-danger alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                           注册失败。
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">消息</div>
+                        <div class="panel-body">消息内容</div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">消息</div>
+                        <div class="panel-body">消息内容</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

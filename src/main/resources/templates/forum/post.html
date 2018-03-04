@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+</head>
+<body>
+	<div class="panel panel-default" style="background-color: #e1e1e1;">
+		<div th:replace="fragments/header :: header"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8">
+					<div class="panel panel-default">
+						<div class="panel-body">
+						    <div class="media">
+								<div class="media-body">
+								    <div class="media-heading">
+  								        <h3><a th:href="@{/post/{postId}(postId=${post.id})}" th:text="${post.title}">title</a></h3>
+                                    </div>
+								</div>
+ 								<div class="media-right media-middle">
+ 								    <a th:href="@{/user/{userId}(userId=${post.user.id})}">
+ 										<img class="media-object"
+ 										th:src="${'../' + post.user.avatarLocation}"
+ 										alt="profile_pic" class="img-rounded" width="65px" height="65px">
+ 									</a>
+ 							    </div>
+ 							    <a class="post-tag"
+ 								    th:href="@{/category/{categoryName}(categoryName=${post.category.name})}"
+ 								    th:text="${post.category.displayName}">
+ 								</a>
+ 								<a class="post-user"
+ 								    th:href="@{/user/{userId}(userId=${post.user.id})}"
+ 								    th:text="${post.user.username}"></a>
+ 								<span class="post-date" th:text="${'发布于 ' + post.dateFormat()}"></span>
+ 								<small th:text="${post.hitCount + ' 次点击'}"></small>
+							<hr>
+							</div>
+							<!-- text area with line break feature -->
+  							<p class="post-content" th:utext="${#strings.replace( #strings.escapeXml(post.body),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}" ></p>
+						</div>
+					</div>
+					<!-- comment section -->
+                    <div th:replace="fragments/comments :: comments"></div>
+				</div>
+				<div class="col-md-4">
+					<div class="panel panel-default">
+						<div class="panel-heading">消息</div>
+						<div class="panel-body">消息内容</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">消息</div>
+						<div class="panel-body">消息内容</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

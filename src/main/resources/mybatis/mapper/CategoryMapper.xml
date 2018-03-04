@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingwenwei.persistence.dao.CategoryMapper">
+
+    <resultMap id="CategoryResultMap" type="com.qingwenwei.persistence.model.Category">
+        <id property="id" column="id"/>
+        <result property="weight" column="weight"/>
+        <result property="name" column="name"/>
+        <result property="displayName" column="display_name"/>      
+        <result property="username" column="username"/>      
+        <result property="dateCreated" column="date_created"/>      
+    </resultMap>
+    
+    <select id="findByName" parameterType="String" resultMap="CategoryResultMap">
+        SELECT
+	        c.id,
+	        c.weight,
+	        c.name,
+	        c.display_name,
+	        c.username,
+	        c.date_created
+        FROM T_CATEGORY c
+        WHERE c.name = #{name}
+    </select>
+    
+    <select id="findAll" resultMap="CategoryResultMap">
+        SELECT
+            c.id,
+            c.weight,
+            c.name,
+            c.display_name,
+            c.username,
+            c.date_created
+        FROM T_CATEGORY c ORDER BY c.weight
+    </select>
+    
+    <insert id="save">
+        
+    </insert>
+    
+</mapper>

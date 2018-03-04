@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingwenwei.persistence.dao.UserMapper">
+    
+    <resultMap id="UserResultMap" type="com.qingwenwei.persistence.model.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="confirmationToken" column="confirmation_token"/>
+        <result property="activated" column="activated"/>
+        <result property="dateCreated" column="date_created"/>
+        <result property="avatarLocation" column="avatar_location"/>
+        <result property="bio" column="bio"/>
+    </resultMap>
+    
+    <sql id="baseColumns" >
+        id                     as "id", 
+        username               as "username", 
+        password               as "password", 
+        email                  as "email", 
+        activated              as "activated", 
+        date_created           as "dateCreated", 
+        avatar_location        as "avatarLocation", 
+        bio                    as "bio"
+        roles                  as "roles"
+    </sql>
+    
+    <insert id="save">
+        INSERT INTO `T_USER` 
+            (
+            username, 
+            password, 
+            email, 
+            confirmation_token, 
+            activated, 
+            date_created, 
+            avatar_location, 
+            bio,
+            roles
+            ) 
+        VALUES 
+            (
+            #{username}, 
+            #{password}, 
+            #{email}, 
+            #{confirmationToken}, 
+            #{activated}, 
+            #{dateCreated}, 
+            #{avatarLocation}, 
+            #{bio},
+            #{roles}
+            )
+    </insert>
+    
+    <select id="findById" parameterType="Long" resultMap="UserResultMap">
+        SELECT 
+	        id,
+	        username, 
+	        password, 
+	        email, 
+	        activated, 
+	        date_created, 
+	        avatar_location, 
+	        bio,
+	        roles
+        FROM T_USER
+        WHERE id = #{id}
+    </select>
+    
+    <select id="findByUsername" parameterType="String" resultMap="UserResultMap">
+        SELECT 
+            id,
+            username, 
+            password, 
+            email, 
+            activated, 
+            date_created, 
+            avatar_location, 
+            bio,
+            roles
+        FROM T_USER
+        WHERE username = #{username}
+    </select>
+    
+    <select id="findByEmail" parameterType="String" resultMap="UserResultMap">
+        SELECT
+            id,
+            username, 
+            password, 
+            email, 
+            activated, 
+            date_created, 
+            avatar_location, 
+            bio,
+            roles
+        FROM T_USER
+        WHERE email = #{email}
+    </select>
+    
+    <select id="findByConfirmationToken" parameterType="String" resultMap="UserResultMap">
+        SELECT 
+            id,
+            username, 
+            password, 
+            email, 
+            activated, 
+            date_created, 
+            avatar_location, 
+            bio,
+            confirmation_token,
+            roles
+        FROM T_USER
+        WHERE confirmation_token = #{confirmationToken}
+    </select>
+    
+    <select id="findAll" resultMap="UserResultMap">
+        SELECT 
+            id,
+            username, 
+            password, 
+            email, 
+            activated, 
+            date_created, 
+            avatar_location, 
+            bio,
+            confirmation_token,
+            roles
+        FROM T_USER
+    </select>
+    
+    <update id="update" parameterType="com.qingwenwei.persistence.model.User">
+        UPDATE T_USER SET 
+            password = #{password},
+            email = #{email},
+            date_created = #{dateCreated},
+            avatar_location = #{avatarLocation},
+            bio = #{bio}
+        WHERE id = #{id}
+    </update>    
+    
+</mapper>

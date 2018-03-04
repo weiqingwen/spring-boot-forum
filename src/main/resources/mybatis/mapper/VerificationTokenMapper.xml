@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingwenwei.persistence.dao.VerificationTokenMapper">
+   <resultMap id="VerificationTokenResultMap" type="com.qingwenwei.persistence.model.VerificationToken">
+        <id property="id" column="verification_token_id"/>
+        <result property="token" column="verification_token"/>
+        <result property="expiryDate" column="verification_expiry_date"/>     
+        <association property="user" column="verification_user_id" javaType="com.qingwenwei.persistence.model.User">
+            <id property="id" column="user_id"/>
+            <result property="username" column="user_username"/>
+            <result property="avatarLocation" column="user_avatar_location"/>
+        </association> 
+    </resultMap>
+    
+    <insert id="save">
+        INSERT INTO `T_VERIFICATION_TOKEN`
+        (id, token, user_id, expiry_date) values (#{id}, #{token}, #{user.id}, #{expiryDate})
+    </insert>
+    
+    <select id="findByToken" parameterType="String" resultMap="VerificationTokenResultMap">
+        SELECT
+            v.id as verification_token_id,
+            v.token as verification_token,
+            v.expiryDate as verification_expiry_date,
+            u.id as user_id,
+            u.username as user_username,
+            u.avatar_location as user_avatar_location,
+        FROM T_VERIFICATION_TOKEN v
+        LEFT JOIN T_USER u ON u.id = v.user_id
+        WHERE v.token = #{token}
+    </select>
+    
+    <select id="findByUserId" parameterType="Long" resultMap="VerificationTokenResultMap">
+        SELECT
+            v.id as verification_token_id,
+            v.token as verification_token,
+            v.expiryDate as verification_expiry_date,
+            u.id as user_id,
+            u.username as user_username,
+            u.avatar_location as user_avatar_location,
+        FROM T_VERIFICATION_TOKEN v
+        LEFT JOIN T_USER u ON u.id = v.user_id
+        WHERE u.id = #{userId}
+    </select>
+    
+</mapper>

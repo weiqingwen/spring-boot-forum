@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+</head>
+<body>
+    <div class="panel panel-default panel-bg">
+        <div th:replace="fragments/header :: header"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+	                        <div class="media-left media-top">
+	                            <img class="media-object" width="50px" height="50px" alt="profile_pic" class="img-rounded"
+                                    th:src="${'../' + user.avatarLocation}">
+	                        </div>
+	                        <div class="media-body">
+	                            <div class="media-heading">
+	                                <span class="post-user" th:text="${user.username}"></span>
+	                                <div class="post-user" th:text="${user.bio}"></div>
+	                            </div>
+                                <span class="post-user" th:text="${user.id}"></span>
+                                <span class="post-user" th:text="${user.dateCreated}"></span>
+	                        </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+	                        <ul class="nav nav-tabs">
+		                        <li role="presentation" th:class="${activeTab == 'posts'} ? 'active' : ''">
+                                    <a href="?tab=posts">帖子</a>
+                                </li>
+	                            <li role="presentation" th:class="${activeTab == 'comments'} ? 'active' : ''">
+                                    <a href="?tab=comments">回复</a>
+	                            </li>
+	                        </ul>
+                        </div>
+                        <ul class="list-group list-custom-corner">
+			                <li class="profile-list list-group-item side-borderless last-border" th:each="post:${posts}">
+			                    <div class="media">
+			                        <div class="media-body">
+			                            <div class="media-heading">
+			                                <a class="post-title" th:href="@{/post/{postId}(postId=${post.id})}" th:text="${post.title}">title</a>
+			                            </div>
+			                            <a class="post-tag"
+			                                    th:href="@{/category/{categoryName}(categoryName=${post.category.name})}"
+			                                    th:text="${post.category.displayName}"></a>
+			                            <span class="post-date" th:text="${'发布于 ' + post.dateFormat()}"></span>
+			                            <span class="post-date" th:if="${post.hitCount > 0}" th:text="${post.hitCount + ' 次点击'}"></span>
+			                            <span class="post-date" th:if="${post.commentCount > 0}" th:text="${post.commentCount + ' 回复'}"></span>
+			                        </div>
+			                    </div>
+			                </li>
+			            </ul>
+			            <ul class="list-group list-custom-corner">
+			                <li th:fragment="profile-comments" class="profile-list list-group-item side-borderless last-border" th:each="comment:${comments}">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <div class="media-heading">
+                                            <a class="post-title" th:text="${comment.body}">comment</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">公告</div>
+                        <div class="panel-body">公告内容</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

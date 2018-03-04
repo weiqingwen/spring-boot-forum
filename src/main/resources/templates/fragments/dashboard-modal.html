@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <!-- post edit -->
+    <div id="postEditModal" th:fragment="postEditModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	    <div class="modal-dialog modal-lg" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	               <h4 class="modal-title" id="myModalLabel">修改帖子</h4>
+	            </div>
+	            <div class="modal-body">
+	               <div class="container-fluid">
+	                   <form action="#" th:action="@{/post/edit(tab=${tab}, start=${start}, end=${end})}" th:object="${newPostForm}" method="post">
+	                        <input hidden="true" th:field="*{postId}" id="postId" type="text"/>
+	                        <div class="row form-group">
+	                            标题：
+	                            <input th:field="*{title}" id="postTitle" type="text" class="form-control" placeholder="标题" />
+	                        </div>
+	                        <div class="row form-group">
+	                            正文：
+	                            <textarea th:field="*{body}" id="postBody" class="form-control" rows="20" style="resize: vertical" placeholder="正文"></textarea>
+	                        </div>
+	                        <div class="row form-group">
+	                            分类：
+	                            <select th:field="*{category}" id="selectpicker" class="selectpicker" data-live-search="true"></select>
+	                        </div>
+	                        <div class="modal-footer">
+	                           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	                           <button type="button" class="btn btn-primary" type="submit">保存</button>
+	                        </div>
+	                    </form>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<!-- delete post -->
+	
+	<div id="postDeleteModal" th:fragment="postDeleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+	            <div class="modal-body">
+	                <div class="alert alert-danger" role="alert">
+	                   <strong>注意!</strong> 请问确认要删除的帖子信息。
+	                </div>
+	               <div class="container-fluid">
+		                <div class="row form-group">
+		                   <p id="postId"></p>
+		                   <p id="postUsername"></p>
+		                   <p id="postDate"></p>
+		                   <p id="postTitle"></p>
+		                </div>
+                    </div>
+	            </div>
+	            <div class="modal-footer">
+				   <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				   <button id="confirmDeleteButton" type="button" class="btn btn-danger" data-dismiss="modal">删除</button>
+				</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- message modal -->
+    
+    <div id="messageModal" th:fragment="messageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id="messageText" class="alert" role="alert">
+                       <strong id="strongText">成功删除!</strong> 你所选的帖子及其所有回复已经成功被删除。
+                    </div>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-success refreshCurrPage" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

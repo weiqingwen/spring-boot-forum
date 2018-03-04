@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="category-nav">
+		<ul class="list-unstyled list-inline">
+			<li class="list-inline-item" th:each="category:${categories}"><a class="post-tag"
+				th:href="@{/category/{categoryName}(categoryName=${category.name})}"
+				th:text="${category.displayName}">category</a></li>
+		</ul>
+	</div>
+</body>
+</html>
