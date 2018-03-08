@@ -151,7 +151,7 @@ public class UserServiceImpl implements UserService {
 		newUserSettingsForm.setEmail(user.getEmail());
 		Map<String, Object> attributes = new HashMap<>();
 		attributes.put("user", user);
-		attributes.put("newUserSettingsDto", newUserSettingsForm);
+		attributes.put("userSettingsDto", newUserSettingsForm);
 		return attributes;
 	}
 

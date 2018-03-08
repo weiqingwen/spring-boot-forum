@@ -58,7 +58,7 @@ $(function() {
 				                    <div class="row form-group">
 				                        <h3 th:text="${user.username}"></h3>
 				                    </div>
-									<form method="POST" enctype="multipart/form-data" action="/user/settings" th:object="${newUserSettingsDto}">
+									<form method="POST" enctype="multipart/form-data" action="/user/settings" th:object="${userSettingsDto}">
                                         <table>
 						                    <tr>
 							                    <td width="100px" align="left">当前头像：</td>
