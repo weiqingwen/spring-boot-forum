@@ -8,6 +8,7 @@
 ### Frontend
 - Thymeleaf
 - Bootstrap
+- jQuery
 - Chart.js
 - bootstrap-select
 - daterangepicker
@@ -33,3 +34,7 @@ mvn spring-boot:run
 
 #### Statistics
 ![](screenshots/stats.png)
+
+### Special Thanks :)
+
+[Chinese Lorem Ipsum 亂數假文產生器](http://www.richyli.com/tool/loremipsum/)
