@@ -18,11 +18,11 @@ import com.qingwenwei.util.EmailService;
 @Component
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
 
-	private static final String VERIFICATION_FROM_EMAIL_ADDR = "";
+	private static final String VERIFICATION_EMAIL_FROM_ADDR = "springbootforum@163.com";
 	
-	private static final String VERIFICATION_EMAIL_SUBJECT = "";
+	private static final String VERIFICATION_EMAIL_SUBJECT = "用户注册确认";
 	
-	private static final String VERIFICATION_EMAIL_TEXT = "";
+	private static final String VERIFICATION_EMAIL_TEXT = "内容";
 	
 	private static final Logger logger = LoggerFactory.getLogger(RegistrationListener.class);
 	
@@ -50,15 +50,17 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 		String token = UUID.randomUUID().toString(); // token string
 		User user = this.userMapper.findByUsername(username);
 		VerificationToken verificationToken = new VerificationToken(user, token);
-		System.out.println("Saved verification token >> " + verificationToken);
 		this.verificationTokenMapper.save(verificationToken);
+		System.out.println(" verification token >> " + verificationToken);
 		
-		// send verification email
+		// construct verification email
 		SimpleMailMessage email = new SimpleMailMessage();
-		email.setFrom(VERIFICATION_FROM_EMAIL_ADDR);
+		email.setFrom(VERIFICATION_EMAIL_FROM_ADDR);
 		email.setSubject(VERIFICATION_EMAIL_SUBJECT);
 		email.setText(VERIFICATION_EMAIL_TEXT);
+		email.setTo(user.getEmail());
 		
-		
+		// send email
+		this.emailService.sendEmail(email);
 	}
 }
