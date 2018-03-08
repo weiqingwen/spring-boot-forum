@@ -1,19 +1,26 @@
-#Spring Boot Forum 
+# Spring Boot Forum 
 -----------------------------------
 
-###Backend
+### Backend
 - Spring Boot 1.5.5
 - Spring Security 4
 - Mybatis(mybatis-spring-boot-starter)
 
-###Frontend
+### Frontend
 - Thymeleaf
 - Bootstrap
 - Chart.js
 
-###Build Tool
+### Build Tool
 - Maven 3.3.9
 
-#How To Run
+# Functionalities
+-----------------------------------
+- User Roles Management
+- User Registration Confirmation Email
 
-
+# How To Run
+-----------------------------------
+### Run With Maven:
+```
+mvn spring-boot:run
