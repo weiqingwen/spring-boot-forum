@@ -5,8 +5,10 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.qingwenwei.persistence.dao.UserMapper;
@@ -22,7 +24,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 	
 	private static final String VERIFICATION_EMAIL_SUBJECT = "用户注册确认";
 	
-	private static final String VERIFICATION_EMAIL_TEXT = "内容";
+	private static final String CONFIRM_ENDPOINT = "registration-confirm";
 	
 	private static final Logger logger = LoggerFactory.getLogger(RegistrationListener.class);
 	
@@ -34,6 +36,9 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 	
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Value("${serviceBaseUrl}")
+	private String serviceBaseUrl;
 	
 	@Override
 	public void onApplicationEvent(final OnRegistrationCompleteEvent event) {
@@ -55,9 +60,13 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 		
 		// construct verification email
 		SimpleMailMessage email = new SimpleMailMessage();
+		
+		String emailText = serviceBaseUrl + "/" + CONFIRM_ENDPOINT  + "?token=" + token;
+		System.out.println("Confirm Email Content >> " + emailText);
+		
 		email.setFrom(VERIFICATION_EMAIL_FROM_ADDR);
 		email.setSubject(VERIFICATION_EMAIL_SUBJECT);
-		email.setText(VERIFICATION_EMAIL_TEXT);
+		email.setText(emailText);
 		email.setTo(user.getEmail());
 		
 		// send email

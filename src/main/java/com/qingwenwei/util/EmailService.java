@@ -12,9 +12,9 @@ public class EmailService {
 	@Autowired
 	private JavaMailSender mailSender;
 	
+	// asynchronous method which requires EnableAsync annotation in application class
 	@Async
 	public void sendEmail(SimpleMailMessage email) {
 		mailSender.send(email);
 	}
-	
 }

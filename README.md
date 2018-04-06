@@ -1,11 +1,11 @@
 # spring-boot-forum 
 
-### Backend
+### Backend 后端
 - Spring Boot 1.5.5
 - Spring Security 4
 - Mybatis(mybatis-spring-boot-starter 1.3.1)
 
-### Frontend
+### Frontend 前端
 - Thymeleaf
 - Bootstrap
 - jQuery
@@ -13,28 +13,54 @@
 - bootstrap-select
 - daterangepicker
 
-### Build Tool
+### Build Tool 
 - Maven 3.3.9
 
-# How To Run
+### Features
+- Content: post, comment, category, pagination, comment count badge, views
+- User: priviledges, user profile, avatar, email confirmation
+- Admin: dashboard, charts, post/category management
+
+### 主要功能
+- 内容：发帖、评论、帖子分类、分页、回帖统计、流量统计
+- 用户：权限、用户资料、头像、邮箱验证
+- 管理：后台管理页面、统计图表、帖子和分类管理
+
+# How It Works 如何运行
+
+### Database Setup
+Before deployment, please make sure MySQL database is up and running.
+
+- Default schema name is `db_springboot_forum`
+- Default username and password are both `root` 
+
+You can also edit database configuration in `src/main/resources/application.properties` on your own.
+
+### STMP Email Service
+STMP Email service configuration is in `src/main/resources/application.properties`. You are encouraged to use your own STMP service, but you are also welcome to use mine for testing purpose.
+
 ### Run with Maven:
 ```
+// locate to root directory
 mvn spring-boot:run
+// server is up and running on http://localhost:8080
 ```
 
-# Screenshots
-#### Homepage
+# Screenshots 截图
+### Homepage 主页
 ![](screenshots/homepage.png)
 
-#### Posts Management
+### Post Management 帖子管理
 ![](screenshots/posts-manage.png)
 
-#### User Profile Edition
+### User Profile 用户资料
 ![](screenshots/profile-edit.png)
 
-#### Statistics
+### Charts 图表
 ![](screenshots/stats.png)
 
-### Special Thanks :)
+### Special Thanks 特别感谢
+
+本项目中使用的中文假文由『亂數假文產生器』生成。
 
 [Chinese Lorem Ipsum 亂數假文產生器](http://www.richyli.com/tool/loremipsum/)

@@ -42,7 +42,7 @@ public class PostController {
 	private CommentService commentService;
 	
 	@Autowired
-    private NewPostFormValidator newPostValidator;
+	private NewPostFormValidator newPostValidator;
 	
 	@Autowired
 	ApplicationEventPublisher eventPublisher;
@@ -114,9 +114,8 @@ public class PostController {
 	}
 	
 	@RequestMapping(value = "/post/{postId}", method = RequestMethod.POST)
-	public String processNewCommentOnPost(@PathVariable Long postId, 
-			@Valid @ModelAttribute("commentDto") CommentDto commentDto) {
-		if(null == postId && null == commentDto) {
+	public String processNewComment(@PathVariable Long postId, @Valid @ModelAttribute("commentDto") CommentDto commentDto) {
+		if (null == postId && null == commentDto) {
 			throw new BadRequestException("Path variable postId and newCommentForm cound not be null.");
 		}
 		Comment comment = this.commentService.createNewCommentOnPost(postId, commentDto);

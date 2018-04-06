@@ -85,14 +85,16 @@ public class UserController {
 		return "forum/user-login";
 	}
 	
-	@RequestMapping(value = "/confirm", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/registration-confirm", method = RequestMethod.GET)
 	public String confirmRegistration(@RequestParam("token") String token) {
-		return "forum/confirmation";
-	}
-	
-	@RequestMapping(value = "/confirm", method = RequestMethod.POST)
-	public String processConfirmation() {
-		return "forum/confirmation";
+		if (null == token || token.equals("")) {
+			throw new BadRequestException("Invalid user registration confirmation token.");
+		}
+		Map<String, Object> attributes = this.userService.confirmUserRegistrationWithToken(token);
+		if (null == attributes) {
+			throw new ResourceNotFoundException("attributes not found.");
+		}
+		return "forum/user-registration-confirm";
 	}
 	
 	@RequestMapping(value = "/user/settings", method = RequestMethod.GET)

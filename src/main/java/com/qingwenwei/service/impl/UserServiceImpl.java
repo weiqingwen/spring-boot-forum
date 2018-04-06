@@ -183,5 +183,11 @@ public class UserServiceImpl implements UserService {
 		attributes.put("userRegistrationResult", registrationResult);
 		return attributes;
 	}
+	
+	@Override
+	public Map<String, Object> confirmUserRegistrationWithToken(String token) {
+		
+		return null;
+	}
 
 }

@@ -30,4 +30,6 @@ public interface UserService {
 	
 	Map<String, Object> registerUserAccount(UserRegistrationDto userDto, HttpServletRequest request);
 
+	Map<String, Object> confirmUserRegistrationWithToken(String token);
+
 }
