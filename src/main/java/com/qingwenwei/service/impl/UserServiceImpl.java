@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserService {
 		user.setUsername(userDto.getUsername());
 		user.setEmail(userDto.getEmail());
 		user.setDateCreated(new Timestamp(System.currentTimeMillis()));
-		user.activated(true);
+		user.activated(false);
 		user.setRoles(User.USER);
 		user.setConfirmationToken(UUID.randomUUID().toString());
 
@@ -186,8 +186,23 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public Map<String, Object> confirmUserRegistrationWithToken(String token) {
-		
-		return null;
+		Map<String, Object> attributes = new HashMap<>();
+		VerificationToken verificationToken = this.verificationTokenMapper.findByToken(token);
+		if (null == verificationToken) {
+			return null; // 404 exception
+		}
+		// check if expire time is still within 24 hours
+		Long diff = verificationToken.getExpiryDate().getTime() - System.currentTimeMillis();
+		if (diff < 0) { // token not valid anymore
+			attributes.put("registrationActivationResult", "failure");
+		} else {
+			String username = verificationToken.getUser().getUsername();
+			User user = this.userMapper.findByUsername(username);
+			user.activated(true);
+			this.userMapper.update(user);
+			attributes.put("registrationActivationResult", "success");
+		}
+		return attributes;
 	}
 
 }

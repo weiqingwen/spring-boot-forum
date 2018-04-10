@@ -86,7 +86,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/user/registration-confirm", method = RequestMethod.GET)
-	public String confirmRegistration(@RequestParam("token") String token) {
+	public String confirmRegistration(@RequestParam("token") String token, Model model) {
 		if (null == token || token.equals("")) {
 			throw new BadRequestException("Invalid user registration confirmation token.");
 		}
@@ -94,6 +94,7 @@ public class UserController {
 		if (null == attributes) {
 			throw new ResourceNotFoundException("attributes not found.");
 		}
+		model.addAllAttributes(attributes);
 		return "forum/user-registration-confirm";
 	}
 	

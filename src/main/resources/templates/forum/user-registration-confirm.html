@@ -11,7 +11,20 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="container-fluid">
-                                Registration Confirm
+                                <div th:switch="${registrationActivationResult}">
+                                    <div th:case="'success'"> 
+                                        <div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                           用户激活成功。
+                                        </div>
+                                    </div>
+                                    <div th:case="'failure'"> 
+                                        <div class="alert alert-danger alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                           用户激活失败。
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

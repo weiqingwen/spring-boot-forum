@@ -135,7 +135,8 @@
             email = #{email},
             date_created = #{dateCreated},
             avatar_location = #{avatarLocation},
-            bio = #{bio}
+            bio = #{bio},
+            activated = #{activated}
         WHERE id = #{id}
     </update>    
     

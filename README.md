@@ -18,13 +18,13 @@
 
 ### Features
 - Content: post, comment, category, pagination, comment count badge, views
-- User: priviledges, user profile, avatar, email confirmation
+- User: priviledges, profile, avatar, email confirmation
 - Admin: dashboard, charts, post/category management
 
 ### 主要功能
 - 内容：发帖、评论、帖子分类、分页、回帖统计、流量统计
-- 用户：权限、用户资料、头像、邮箱验证
-- 管理：后台管理页面、统计图表、帖子和分类管理
+- 用户：权限、资料、头像、邮箱验证
+- 管理：后台管理、统计图表、帖子/分类管理
 
 # How It Works 如何运行
 
@@ -32,7 +32,8 @@
 Before deployment, please make sure MySQL database is up and running.
 
 - Default schema name is `db_springboot_forum`
-- Default username and password are both `root` 
+- Default username is `root` 
+- Default password is `root`
 
 You can also edit database configuration in `src/main/resources/application.properties` on your own.
 
@@ -41,10 +42,11 @@ STMP Email service configuration is in `src/main/resources/application.propertie
 
 ### Run with Maven:
 ```
-// locate to root directory
+git clone https://github.com/qingwenwei/spring-boot-forum.git
+cd spring-boot-forum
 mvn spring-boot:run
-// server is up and running on http://localhost:8080
 ```
+Server can be accessed on http://localhost:8080.
 
 # Screenshots 截图
 ### Homepage 主页

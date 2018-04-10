@@ -37,8 +37,9 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 	@Autowired
 	private UserMapper userMapper;
 	
-	@Value("${serviceBaseUrl}")
-	private String serviceBaseUrl;
+	// root URL of service
+	@Value("${service.url}")
+	private String serviceUrl;
 	
 	@Override
 	public void onApplicationEvent(final OnRegistrationCompleteEvent event) {
@@ -56,20 +57,19 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 		User user = this.userMapper.findByUsername(username);
 		VerificationToken verificationToken = new VerificationToken(user, token);
 		this.verificationTokenMapper.save(verificationToken);
-		System.out.println(" verification token >> " + verificationToken);
 		
 		// construct verification email
 		SimpleMailMessage email = new SimpleMailMessage();
 		
-		String emailText = serviceBaseUrl + "/" + CONFIRM_ENDPOINT  + "?token=" + token;
-		System.out.println("Confirm Email Content >> " + emailText);
-		
+		// confirmation link in email
+		String confirmationLink = serviceUrl + "/user/" + CONFIRM_ENDPOINT  + "?token=" + token;
+		System.out.println("confirmation link >> " + confirmationLink);
 		email.setFrom(VERIFICATION_EMAIL_FROM_ADDR);
 		email.setSubject(VERIFICATION_EMAIL_SUBJECT);
-		email.setText(emailText);
+		email.setText(confirmationLink);
 		email.setTo(user.getEmail());
 		
-		// send email
-		this.emailService.sendEmail(email);
+		// send email asynchronously
+//		this.emailService.sendEmail(email);
 	}
 }

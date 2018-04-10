@@ -4,7 +4,7 @@
    <resultMap id="VerificationTokenResultMap" type="com.qingwenwei.persistence.model.VerificationToken">
         <id property="id" column="verification_token_id"/>
         <result property="token" column="verification_token"/>
-        <result property="expiryDate" column="verification_expiry_date"/>     
+        <result property="expiryDate" column="verification_expiry_date"/>
         <association property="user" column="verification_user_id" javaType="com.qingwenwei.persistence.model.User">
             <id property="id" column="user_id"/>
             <result property="username" column="user_username"/>
@@ -21,26 +21,13 @@
         SELECT
             v.id as verification_token_id,
             v.token as verification_token,
-            v.expiryDate as verification_expiry_date,
+            v.expiry_date as verification_expiry_date,
             u.id as user_id,
             u.username as user_username,
-            u.avatar_location as user_avatar_location,
+            u.avatar_location as user_avatar_location
         FROM T_VERIFICATION_TOKEN v
         LEFT JOIN T_USER u ON u.id = v.user_id
         WHERE v.token = #{token}
-    </select>
-    
-    <select id="findByUserId" parameterType="Long" resultMap="VerificationTokenResultMap">
-        SELECT
-            v.id as verification_token_id,
-            v.token as verification_token,
-            v.expiryDate as verification_expiry_date,
-            u.id as user_id,
-            u.username as user_username,
-            u.avatar_location as user_avatar_location,
-        FROM T_VERIFICATION_TOKEN v
-        LEFT JOIN T_USER u ON u.id = v.user_id
-        WHERE u.id = #{userId}
     </select>
     
 </mapper>

@@ -56,8 +56,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         		.antMatchers("/post/**").permitAll() // all posts are allowed to be viewed without authentication
         		.antMatchers("/user/**").permitAll() // all user profiles are allowed to be viewed without authentication
         		.antMatchers("/category/**").permitAll() // all categories are allowed to be viewed without authentication
-        		.antMatchers("/user/registration").permitAll()
-        		.antMatchers("/confirm").permitAll()
         		.antMatchers("/avatar/**").permitAll() // temp
             .anyRequest().authenticated() // every request requires the user to be authenticated
             		.and()

@@ -12,7 +12,8 @@ public class EmailService {
 	@Autowired
 	private JavaMailSender mailSender;
 	
-	// asynchronous method which requires EnableAsync annotation in application class
+	// asynchronous function
+	// requires EnableAsync annotation in application class - main method
 	@Async
 	public void sendEmail(SimpleMailMessage email) {
 		mailSender.send(email);
