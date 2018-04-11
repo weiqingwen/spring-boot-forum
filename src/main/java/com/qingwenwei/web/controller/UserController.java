@@ -76,7 +76,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/user/login", method = RequestMethod.GET)
 	public String displayLoginPage(Model model) {
-		model.addAttribute("title", "用户注册");
+		model.addAttribute("title", "用户登录");
 		return "forum/user-login";
 	}
 	

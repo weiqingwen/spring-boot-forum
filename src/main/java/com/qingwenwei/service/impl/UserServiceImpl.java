@@ -192,7 +192,7 @@ public class UserServiceImpl implements UserService {
 			return null; // 404 exception
 		}
 		// check if expire time is still within 24 hours
-		boolean tokenValid = verificationToken.getExpiryDate().getTime() - System.currentTimeMillis() < 0;
+		boolean tokenValid = verificationToken.getExpiryDate().getTime() - System.currentTimeMillis() > 0;
 		if (tokenValid) {
 			String username = verificationToken.getUser().getUsername();
 			User user = this.userMapper.findByUsername(username);

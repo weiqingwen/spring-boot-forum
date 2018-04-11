@@ -13,7 +13,11 @@ import com.qingwenwei.persistence.model.User;
 import com.qingwenwei.service.UserService;
 
 public class MyUserDetailsService implements UserDetailsService{
-
+	
+    private boolean accountNonExpired = true;
+    private boolean credentialsNonExpired = true;
+    private boolean accountNonLocked = true;
+	
 	@Autowired
 	private UserService userService;
 	
@@ -25,11 +29,19 @@ public class MyUserDetailsService implements UserDetailsService{
 		}
 		
 		List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
+		
 		// grant roles to user
 		for (String role : user.getRolesSet()) {
 			grantedAuthorities.add(new SimpleGrantedAuthority(role));
 		}
 		
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
+		return new org.springframework.security.core.userdetails.User(
+				user.getUsername(), 
+				user.getPassword(), 
+				user.isEnabled(),
+				accountNonExpired,
+				credentialsNonExpired,
+				accountNonLocked,
+				grantedAuthorities);
 	}
 }

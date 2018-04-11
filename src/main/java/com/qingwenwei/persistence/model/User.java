@@ -129,6 +129,10 @@ public class User implements Serializable {
 	public void activated(boolean activated) {
 		this.setActivated(activated == true ? 1L : 0L);
 	}
+	
+	public boolean isEnabled() { 
+		return this.activated == 1 ? true : false;
+	}
 
 	@Override
 	public String toString() {
