@@ -17,12 +17,12 @@
 - Maven 3.3.9
 
 ### Features
-- Content: post, comment, category, pagination, comment count badge, views
-- User: priviledges, profile, avatar, email confirmation
+- Content: post, comment, category, pagination, comment count badge, views, form valdiation
+- User:roles, profile, avatar, email confirmation
 - Admin: dashboard, charts, post/category management
 
 ### 主要功能
-- 内容：发帖、评论、帖子分类、分页、回帖统计、流量统计
+- 内容：发帖、评论、帖子分类、分页、回帖统计、访问统计、表单验证
 - 用户：权限、资料、头像、邮箱验证
 - 管理：后台管理、统计图表、帖子/分类管理
 

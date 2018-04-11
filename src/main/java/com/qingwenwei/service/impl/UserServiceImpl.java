@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService {
 		
 		// save newly registered user
 		User user = new User();
-		user.setPassword(userDto.getPassword());
+		user.setPassword(this.bCryptPasswordEncoder.encode(userDto.getPassword()));
 		user.setUsername(userDto.getUsername());
 		user.setEmail(userDto.getEmail());
 		user.setDateCreated(new Timestamp(System.currentTimeMillis()));
@@ -192,15 +192,15 @@ public class UserServiceImpl implements UserService {
 			return null; // 404 exception
 		}
 		// check if expire time is still within 24 hours
-		Long diff = verificationToken.getExpiryDate().getTime() - System.currentTimeMillis();
-		if (diff < 0) { // token not valid anymore
-			attributes.put("registrationActivationResult", "failure");
-		} else {
+		boolean tokenValid = verificationToken.getExpiryDate().getTime() - System.currentTimeMillis() < 0;
+		if (tokenValid) {
 			String username = verificationToken.getUser().getUsername();
 			User user = this.userMapper.findByUsername(username);
 			user.activated(true);
 			this.userMapper.update(user);
 			attributes.put("registrationActivationResult", "success");
+		} else {
+			attributes.put("registrationActivationResult", "failure");
 		}
 		return attributes;
 	}

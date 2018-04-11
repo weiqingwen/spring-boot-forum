@@ -65,7 +65,7 @@ public class NewUserFormValidator implements Validator {
         // password confirmation validation
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "matchingPassword", "NotEmpty");
         if(userForm.getMatchingPassword() != null && !userForm.getMatchingPassword().isEmpty()) {        
-	        	if (userForm.getMatchingPassword().length() < 5 || userForm.getMatchingPassword().length() > 32) {
+	        	if (userForm.getMatchingPassword().length() < 3 || userForm.getMatchingPassword().length() > 32) {
 	        		errors.rejectValue("matchingPassword", "Size.userForm.password");
 	        	}
 	        	if (!userForm.getMatchingPassword().equals(userForm.getPassword())) {
