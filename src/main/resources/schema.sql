@@ -9,7 +9,6 @@ CREATE TABLE `T_USER` (
   `username`               VARCHAR(255) NOT NULL,
   `password`               VARCHAR(255) NOT NULL,
   `email`                  VARCHAR(255) NOT NULL,
-  `confirmation_token`     VARCHAR(255),
   `activated`              TINYINT(1)   NOT NULL DEFAULT 1,
   `date_created`           DATETIME     NOT NULL,
   `avatar_location`        VARCHAR(255) DEFAULT 'avatar/default_avatar.png',

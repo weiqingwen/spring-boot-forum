@@ -70,11 +70,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findByConfirmationToken(String confirmationToken) {
-		return userMapper.findByConfirmationToken(confirmationToken);
-	}
-
-	@Override
 	public User findByUsername(String username) {
 		return userMapper.findByUsername(username);
 	}
@@ -167,7 +162,6 @@ public class UserServiceImpl implements UserService {
 		user.setDateCreated(new Timestamp(System.currentTimeMillis()));
 		user.activated(false);
 		user.setRoles(User.USER);
-		user.setConfirmationToken(UUID.randomUUID().toString());
 
 		// save new user and get number of affected row
 		int affectedRow = userMapper.save(user);

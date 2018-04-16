@@ -21,6 +21,4 @@ public interface UserMapper {
 	
 	User findByEmail(String email);
 	
-	User findByConfirmationToken(String confirmationToken);
-	
 }

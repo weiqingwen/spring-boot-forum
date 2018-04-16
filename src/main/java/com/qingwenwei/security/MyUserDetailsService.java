@@ -23,25 +23,30 @@ public class MyUserDetailsService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = this.userService.findByUsername(username);
-		if(null == user) {
-			throw new UsernameNotFoundException("Can't find user by username: " + username);
+		try {
+			User user = this.userService.findByUsername(username);
+			if(null == user) {
+				throw new UsernameNotFoundException("Can't find user by username: " + username);
+			}
+			
+			List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
+			
+			// grant roles to user
+			for (String role : user.getRolesSet()) {
+				grantedAuthorities.add(new SimpleGrantedAuthority(role));
+			}
+			
+			return new org.springframework.security.core.userdetails.User(
+					user.getUsername(), 
+					user.getPassword(), 
+					user.isEnabled(),
+					accountNonExpired,
+					credentialsNonExpired,
+					accountNonLocked,
+					grantedAuthorities);
+			
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		
-		List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
-		
-		// grant roles to user
-		for (String role : user.getRolesSet()) {
-			grantedAuthorities.add(new SimpleGrantedAuthority(role));
-		}
-		
-		return new org.springframework.security.core.userdetails.User(
-				user.getUsername(), 
-				user.getPassword(), 
-				user.isEnabled(),
-				accountNonExpired,
-				credentialsNonExpired,
-				accountNonLocked,
-				grantedAuthorities);
 	}
 }

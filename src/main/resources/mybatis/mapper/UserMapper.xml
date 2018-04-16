@@ -7,7 +7,6 @@
         <result property="username" column="username"/>
         <result property="password" column="password"/>
         <result property="email" column="email"/>
-        <result property="confirmationToken" column="confirmation_token"/>
         <result property="activated" column="activated"/>
         <result property="dateCreated" column="date_created"/>
         <result property="avatarLocation" column="avatar_location"/>
@@ -32,7 +31,6 @@
             username, 
             password, 
             email, 
-            confirmation_token, 
             activated, 
             date_created, 
             avatar_location, 
@@ -44,7 +42,6 @@
             #{username}, 
             #{password}, 
             #{email}, 
-            #{confirmationToken}, 
             #{activated}, 
             #{dateCreated}, 
             #{avatarLocation}, 
@@ -98,22 +95,6 @@
         WHERE email = #{email}
     </select>
     
-    <select id="findByConfirmationToken" parameterType="String" resultMap="UserResultMap">
-        SELECT 
-            id,
-            username, 
-            password, 
-            email, 
-            activated, 
-            date_created, 
-            avatar_location, 
-            bio,
-            confirmation_token,
-            roles
-        FROM T_USER
-        WHERE confirmation_token = #{confirmationToken}
-    </select>
-    
     <select id="findAll" resultMap="UserResultMap">
         SELECT 
             id,
@@ -124,7 +105,6 @@
             date_created, 
             avatar_location, 
             bio,
-            confirmation_token,
             roles
         FROM T_USER
     </select>

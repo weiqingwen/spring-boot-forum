@@ -18,8 +18,6 @@ public interface UserService {
 	
 	User findByEmail(String email);
 	
-	User findByConfirmationToken(String confirmationToken);
-	
 	User findAuthenticatedUser();
 	
 	Map<String, Object> getUserProfileAndPostsByUserIdByTabType(Long userId, String tabType);

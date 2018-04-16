@@ -19,7 +19,6 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	private String email;
-	private String confirmationToken;
 	private Long activated;
 	private Timestamp dateCreated;
 	private String avatarLocation;
@@ -60,14 +59,6 @@ public class User implements Serializable {
 	
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	
-	public String getConfirmationToken() {
-		return confirmationToken;
-	}
-
-	public void setConfirmationToken(String confirmationToken) {
-		this.confirmationToken = confirmationToken;
 	}
 
 	public Long getActivated() {
@@ -137,8 +128,8 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", confirmationToken=" + confirmationToken + ", activated=" + activated + ", dateCreated="
-				+ dateCreated + ", avatarLocation=" + avatarLocation + ", bio=" + bio + ", roles=" + roles + "]";
+				+ ", activated=" + (activated == 1 ? true : false) + ", dateCreated=" + dateCreated + ", avatarLocation=" + avatarLocation
+				+ ", bio=" + bio + ", roles=" + roles + "]";
 	}
 
 }
