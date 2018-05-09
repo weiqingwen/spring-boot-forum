@@ -29,7 +29,7 @@
 # How It Works 如何运行
 
 ### Database Setup
-Before deployment, please make sure MySQL database is up and running.
+Before deployment, please make sure MySQL database is up and running:
 
 - Default schema name is `db_springboot_forum`
 - Default username is `root` 
