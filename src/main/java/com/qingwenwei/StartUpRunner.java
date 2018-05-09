@@ -3,8 +3,6 @@ package com.qingwenwei;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.qingwenwei.persistence.model.VerificationToken;
-
 @Component
 public class StartUpRunner implements CommandLineRunner {
 
