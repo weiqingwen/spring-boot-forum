@@ -10,23 +10,24 @@ import com.qingwenwei.persistence.model.Post;
 @Mapper
 public interface PostMapper {
 
-    int save(Post post);
-    
-    int delete(Long postId);
-	
-    int update(Post post);
-    
-    Post findById(Long postId);
-    
+	int save(Post post);
+
+	int delete(Long postId);
+
+	int update(Post post);
+
+	Post findById(Long postId);
+
 	List<Post> findAll();
-	
+
 	List<Post> findPostsByCategory(String categoryName);
-	
+
 	List<Post> findPostsByUserId(Long userId);
-	
-	List<Post> findPostsBetweenRange(@Param("startDateStr")String startDateStr, @Param("endDateStr")String endDateStr);
-	
+
+	List<Post> findPostsBetweenRange(@Param("startDateStr") String startDateStr,
+			@Param("endDateStr") String endDateStr);
+
 	Long countNumOfPostsByCategoryId(Long categoryId);
-	
+
 	Long countNumOfPostsByMonth(int month);
 }

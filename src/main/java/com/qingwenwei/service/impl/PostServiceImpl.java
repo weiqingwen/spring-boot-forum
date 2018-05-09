@@ -33,95 +33,97 @@ import com.qingwenwei.web.dto.PostDto;
 public class PostServiceImpl implements PostService {
 
 	private static final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
-	
-//	private static String CACHE_ID_PREFIX = "POST_";  
-	
-//	private static int EXPIRATION_TIME_IN_MINUTES = 15;
-	
-//	@Autowired
-//	private RedisTemplate<String, Post> redisTemplate;
-	
+
+	// private static String CACHE_ID_PREFIX = "POST_";
+
+	// private static int EXPIRATION_TIME_IN_MINUTES = 15;
+
+	// @Autowired
+	// private RedisTemplate<String, Post> redisTemplate;
+
 	@Autowired
-    private PostMapper postMapper;
-	
+	private PostMapper postMapper;
+
 	@Autowired
-    private UserMapper userMapper;
-	
+	private UserMapper userMapper;
+
 	@Autowired
-    private CategoryMapper categoryMapper;
-	
+	private CategoryMapper categoryMapper;
+
 	@Autowired
 	private CommentMapper commentMapper;
-	
-    @Override
-    public void save(Post post) {
-    		this.postMapper.save(post);
-    }
 
-    @Override
-    public void delete(Long postId) {
-    		this.postMapper.delete(postId);
-    }
+	@Override
+	public void save(Post post) {
+		this.postMapper.save(post);
+	}
 
-    @Override
-    public void update(Post post) {
-    		this.postMapper.update(post);
-    }
+	@Override
+	public void delete(Long postId) {
+		this.postMapper.delete(postId);
+	}
 
-    @Override
-    public Post findById(Long id) {
-//    	 	left for future implementation
-//    	 	
-//    		ValueOperations<String, Post> operations = redisTemplate.opsForValue();
-//    		String key = CACHE_ID_PREFIX + id;
-//    		
-//    		// retrieve from cache if exists in cache
-//    		boolean hasKey = redisTemplate.hasKey(key);
-//    		if (hasKey) {
-//    			Post post = (Post) operations.get(key);
-//    			logger.info("PostServiceImpl.findById() : retrieve from cache >> id: " + post.getId());
-//    			return post;
-//    		}
-//    		
-//    		// retrieve from database if not exists in cache
-//    		Post post = this.postMapper.findById(id);
-//    		operations.set(key, post, EXPIRATION_TIME_IN_MINUTES, TimeUnit.MINUTES);
-//    		logger.info("PostServiceImpl.findById() : retrieve from database >> id: " + post.getId());
+	@Override
+	public void update(Post post) {
+		this.postMapper.update(post);
+	}
 
-    		Post post = this.postMapper.findById(id);
-        return post;
-    }
-    
-    @Override
-    public Map<String, Object> findPosts() {
-	    	List<Post> posts = this.postMapper.findAll();
-	    	Map<String, Object> attributes = new HashMap<>();
-	    	attributes.put("posts", posts);
-	    	return attributes;
-    }
-    
-    @Override
-    public Map<String, Object> findPostDetailsAndCommentsByPostId(Long postId) {
-	    	Post post = this.postMapper.findById(postId);
-	    	if (null == post) {
-	    		return null;
-	    	}
-	    List<Comment> comments = this.commentMapper.findCommentsByPostId(postId);
-	    	// increase hit count by one
-	    	post.setHitCount(post.getHitCount() == null ? 1 : post.getHitCount() + 1);
-	    	this.postMapper.update(post);
-	    	// load attributes map
-	    	Map<String, Object> attributes = new HashMap<>();
-	    	attributes.put("post", post);
-	    	attributes.put("title", post.getTitle());
-	    	attributes.put("comments", comments);
-	    	attributes.put("commentDto", new CommentDto());
-    		return attributes;
-    }
-    
-    @Override
-    public Post createNewPost(PostDto newPostForm) {
-    		// find authenticated user
+	@Override
+	public Post findById(Long id) {
+		// left for future implementation
+		//
+		// ValueOperations<String, Post> operations = redisTemplate.opsForValue();
+		// String key = CACHE_ID_PREFIX + id;
+		//
+		// // retrieve from cache if exists in cache
+		// boolean hasKey = redisTemplate.hasKey(key);
+		// if (hasKey) {
+		// Post post = (Post) operations.get(key);
+		// logger.info("PostServiceImpl.findById() : retrieve from cache >> id: " +
+		// post.getId());
+		// return post;
+		// }
+		//
+		// // retrieve from database if not exists in cache
+		// Post post = this.postMapper.findById(id);
+		// operations.set(key, post, EXPIRATION_TIME_IN_MINUTES, TimeUnit.MINUTES);
+		// logger.info("PostServiceImpl.findById() : retrieve from database >> id: " +
+		// post.getId());
+
+		Post post = this.postMapper.findById(id);
+		return post;
+	}
+
+	@Override
+	public Map<String, Object> findPosts() {
+		List<Post> posts = this.postMapper.findAll();
+		Map<String, Object> attributes = new HashMap<>();
+		attributes.put("posts", posts);
+		return attributes;
+	}
+
+	@Override
+	public Map<String, Object> findPostDetailsAndCommentsByPostId(Long postId) {
+		Post post = this.postMapper.findById(postId);
+		if (null == post) {
+			return null;
+		}
+		List<Comment> comments = this.commentMapper.findCommentsByPostId(postId);
+		// increase hit count by one
+		post.setHitCount(post.getHitCount() == null ? 1 : post.getHitCount() + 1);
+		this.postMapper.update(post);
+		// load attributes map
+		Map<String, Object> attributes = new HashMap<>();
+		attributes.put("post", post);
+		attributes.put("title", post.getTitle());
+		attributes.put("comments", comments);
+		attributes.put("commentDto", new CommentDto());
+		return attributes;
+	}
+
+	@Override
+	public Post createNewPost(PostDto newPostForm) {
+		// find authenticated user
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		User user = this.userMapper.findByUsername(username);
@@ -135,30 +137,30 @@ public class PostServiceImpl implements PostService {
 		post.setCategory(category);
 		post.setDateCreated(new Timestamp(System.currentTimeMillis()));
 		post.setUser(user);
-    		return post;
-    }
+		return post;
+	}
 
-    @Override
-    public Map<String, Object> findPostsByPage(int currPage, int pageSize) {
-    		// find posts by page
-	    	PageHelper.startPage(currPage, pageSize);
-	    	List<Post> posts = this.postMapper.findAll();
-	    	PageInfo<Post> postsPageInfo = new PageInfo<>(posts);
-	    	// find categories
+	@Override
+	public Map<String, Object> findPostsByPage(int currPage, int pageSize) {
+		// find posts by page
+		PageHelper.startPage(currPage, pageSize);
+		List<Post> posts = this.postMapper.findAll();
+		PageInfo<Post> postsPageInfo = new PageInfo<>(posts);
+		// find categories
 		List<Category> categories = this.categoryMapper.findAll();
-	    	// construct attributes map
-	    	Map<String, Object> attributes = new HashMap<>();
-	    	attributes.put("title", PageMessage.MESSAGE_HOMEPAGE_TITLE_CN);
-	    	attributes.put("categories", categories);
-	    	attributes.put("posts", postsPageInfo.getList());
-	    	attributes.put("pageNum", postsPageInfo.getPageNum());
-	    	attributes.put("isFirstPage", postsPageInfo.isIsFirstPage());
-	    	attributes.put("isLastPage", postsPageInfo.isIsLastPage());
-	    	attributes.put("totalPages", postsPageInfo.getPages());
-	    	attributes.put("pageType", "homePage");
-	    	return attributes;
-    }
-    
+		// construct attributes map
+		Map<String, Object> attributes = new HashMap<>();
+		attributes.put("title", PageMessage.MESSAGE_HOMEPAGE_TITLE_CN);
+		attributes.put("categories", categories);
+		attributes.put("posts", postsPageInfo.getList());
+		attributes.put("pageNum", postsPageInfo.getPageNum());
+		attributes.put("isFirstPage", postsPageInfo.isIsFirstPage());
+		attributes.put("isLastPage", postsPageInfo.isIsLastPage());
+		attributes.put("totalPages", postsPageInfo.getPages());
+		attributes.put("pageType", "homePage");
+		return attributes;
+	}
+
 	@Override
 	public Map<String, Object> findPostsListByCategoryByPage(String categoryName, int currPage, int pageSize) {
 		// find posts by page

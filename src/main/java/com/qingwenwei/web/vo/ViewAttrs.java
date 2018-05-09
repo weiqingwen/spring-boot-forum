@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class ViewAttrs implements Map<String, Object>{
-	
+public class ViewAttrs implements Map<String, Object> {
+
 	private final Map<String, Object> attributes = new HashMap<String, Object>();
-	
+
 	@Override
 	public int size() {
 		return this.attributes.size();

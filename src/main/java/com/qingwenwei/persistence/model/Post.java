@@ -8,19 +8,19 @@ import com.qingwenwei.util.TimeUtil;
 public class Post implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
-    private String title;
-    private String body;
-    private Timestamp dateCreated;
-    private Category category;
-    private User user;
-    private Long commentCount;
-    private Long hitCount;
+	private String title;
+	private String body;
+	private Timestamp dateCreated;
+	private Category category;
+	private User user;
+	private Long commentCount;
+	private Long hitCount;
 
-    public Post() {
+	public Post() {
 
-    }
+	}
 
 	public Long getId() {
 		return id;
@@ -91,13 +91,13 @@ public class Post implements Serializable {
 		return "Post [id=" + id + ", title=" + title + ", body=" + body + ", dateCreated=" + dateCreated + ", category="
 				+ category + ", user=" + user + ", commentCount=" + commentCount + ", hitCount=" + hitCount + "]";
 	}
-	
+
 	public String numDaysAgo() {
 		return TimeUtil.numDaysAgo(this.getDateCreated());
 	}
-	
+
 	public String dateFormat() {
 		return TimeUtil.dateFormat(this.getDateCreated());
 	}
-	
+
 }

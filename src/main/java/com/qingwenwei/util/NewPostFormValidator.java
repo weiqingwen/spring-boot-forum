@@ -8,7 +8,7 @@ import org.springframework.validation.Validator;
 import com.qingwenwei.persistence.model.Post;
 
 @Component
-public class NewPostFormValidator implements Validator{
+public class NewPostFormValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -21,18 +21,18 @@ public class NewPostFormValidator implements Validator{
 
 		// new post title validation
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "NotEmpty");
-		if(newPost.getTitle() != null && !newPost.getTitle().isEmpty()) {
+		if (newPost.getTitle() != null && !newPost.getTitle().isEmpty()) {
 			if (newPost.getTitle().length() < 3 || newPost.getTitle().length() > 30) {
-        			errors.rejectValue("title", "Size.post.title");
-        		}
+				errors.rejectValue("title", "Size.post.title");
+			}
 		}
 
 		// new post body validation
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "body", "NotEmpty");
-		if(newPost.getBody() != null && !newPost.getBody().isEmpty()) {
+		if (newPost.getBody() != null && !newPost.getBody().isEmpty()) {
 			if (newPost.getBody().length() < 3 || newPost.getBody().length() > 100) {
-        			errors.rejectValue("body", "Size.post.body");
-        		}
+				errors.rejectValue("body", "Size.post.body");
+			}
 		}
 
 	}

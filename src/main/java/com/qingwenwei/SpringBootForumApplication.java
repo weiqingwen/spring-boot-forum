@@ -15,16 +15,16 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @SpringBootApplication
 @EnableAsync
 public class SpringBootForumApplication {
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootForumApplication.class, args);
 	}
-	
+
 	@Bean
 	public LocaleResolver localeResolver() {
-	    SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
-	    sessionLocaleResolver.setDefaultLocale(Locale.CHINA);
-	    return sessionLocaleResolver;
+		SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
+		sessionLocaleResolver.setDefaultLocale(Locale.CHINA);
+		return sessionLocaleResolver;
 	}
-	
+
 }

@@ -26,17 +26,17 @@ import com.qingwenwei.web.dto.UserSettingsDto;
 
 @Controller
 public class UserController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
-    private NewUserFormValidator userValidator;
-	
+	private NewUserFormValidator userValidator;
+
 	@RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
-	public String showUserProfilePage(@RequestParam(value = "tab", required = false) String tabType, 
+	public String showUserProfilePage(@RequestParam(value = "tab", required = false) String tabType,
 			@PathVariable Long userId, Model model) {
 		if (null == userId) {
 			throw new BadRequestException("Path variable userId cound not be null.");
@@ -48,13 +48,13 @@ public class UserController {
 		model.addAllAttributes(attributes);
 		return "forum/user-profile";
 	}
-	
+
 	@RequestMapping(value = "/user/registration", method = RequestMethod.GET)
 	public String showRegistrationPage(Model model) {
-        model.addAttribute("userDto", new UserRegistrationDto());
+		model.addAttribute("userDto", new UserRegistrationDto());
 		return "forum/user-registration";
 	}
-	
+
 	@RequestMapping(value = "/user/registration", method = RequestMethod.POST)
 	public String registerNewUser(@Valid @ModelAttribute("userDto") UserRegistrationDto userDto,
 			BindingResult bindingResult, Model model, HttpServletRequest request) {
@@ -62,29 +62,29 @@ public class UserController {
 		 * form validation, check username and email uniqueness
 		 */
 		this.userValidator.validate(userDto, bindingResult);
-        if (bindingResult.hasErrors()) {
-        		logger.info("BindingResult has errors >> " + bindingResult.getFieldError());
-        		return "forum/user-registration";
-        }
-        Map<String, Object> attributes = this.userService.registerUserAccount(userDto, request);
-        if (null == attributes) {
+		if (bindingResult.hasErrors()) {
+			logger.info("BindingResult has errors >> " + bindingResult.getFieldError());
+			return "forum/user-registration";
+		}
+		Map<String, Object> attributes = this.userService.registerUserAccount(userDto, request);
+		if (null == attributes) {
 			throw new ResourceNotFoundException("attributes not found.");
 		}
-        model.addAllAttributes(attributes);
+		model.addAllAttributes(attributes);
 		return "forum/user-registration-result";
 	}
-	
+
 	@RequestMapping(value = "/user/login", method = RequestMethod.GET)
 	public String displayLoginPage(Model model) {
 		model.addAttribute("title", "用户登录");
 		return "forum/user-login";
 	}
-	
+
 	@RequestMapping(value = "/user/login-success", method = RequestMethod.GET)
 	public String showAdminPage() {
 		return "forum/user-login";
 	}
-	
+
 	@RequestMapping(value = "/user/registration-confirm", method = RequestMethod.GET)
 	public String confirmRegistration(@RequestParam("token") String token, Model model) {
 		if (null == token || token.equals("")) {
@@ -97,7 +97,7 @@ public class UserController {
 		model.addAllAttributes(attributes);
 		return "forum/user-registration-confirm";
 	}
-	
+
 	@RequestMapping(value = "/user/settings", method = RequestMethod.GET)
 	public String showUserSettingsPage(Model model) {
 		Map<String, Object> attributes = this.userService.getUserSettingPage();

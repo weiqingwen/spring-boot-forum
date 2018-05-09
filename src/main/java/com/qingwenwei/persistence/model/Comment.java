@@ -3,17 +3,17 @@ package com.qingwenwei.persistence.model;
 import java.sql.Timestamp;
 
 public class Comment {
-	
+
 	private Long id;
 	private Long postId;
 	private String body;
 	private User user;
 	private Timestamp dateCreated;
-	
+
 	public Comment() {
-		
+
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -21,7 +21,7 @@ public class Comment {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public Long getPostId() {
 		return postId;
 	}
@@ -37,7 +37,7 @@ public class Comment {
 	public void setBody(String body) {
 		this.body = body;
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
@@ -49,7 +49,7 @@ public class Comment {
 	public Timestamp getDateCreated() {
 		return dateCreated;
 	}
-	
+
 	public void setDateCreated(Timestamp dateCreated) {
 		this.dateCreated = dateCreated;
 	}
@@ -59,5 +59,5 @@ public class Comment {
 		return "Comment [id=" + id + ", postId=" + postId + ", body=" + body + ", user=" + user + ", dateCreated="
 				+ dateCreated + "]";
 	}
-	
+
 }

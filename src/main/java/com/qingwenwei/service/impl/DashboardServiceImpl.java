@@ -27,46 +27,47 @@ import com.qingwenwei.web.dto.PostDto;
 
 @Service("dashboardService")
 @Transactional
-public class DashboardServiceImpl implements DashboardService{
+public class DashboardServiceImpl implements DashboardService {
 
 	private static final Logger logger = LoggerFactory.getLogger(DashboardServiceImpl.class);
-	
+
 	@Autowired
 	private PostMapper postMapper;
-	
+
 	@Autowired
 	private UserMapper userMapper;
-	
+
 	@Autowired
 	private CategoryMapper categoryMapper;
-	
+
 	@Override
 	public Map<String, Object> getDashboard(String tab, String startDateStr, String endDateStr) {
 		String activeTab = tab == null ? "stats" : tab; // default tab
 		Map<String, Object> attributes = new HashMap<>();
 		attributes.put("activeTab", activeTab);
-		//attributes.put("customWidget", "bootstrap-datetimepicker");
+		// attributes.put("customWidget", "bootstrap-datetimepicker");
 		attributes.put("newPostForm", new PostDto());
-		switch(activeTab) {
-			case "stats":
-				attributes.put("stats", null);
-				break;
-			case "posts":
-				List<Post> posts = this.postMapper.findPostsBetweenRange(startDateStr + " 00:00:00", endDateStr + " 23:59:59");
-				attributes.put("posts", posts);
-				break;
-			case "users":
-				List<User> users = this.userMapper.findAll();
-				attributes.put("users", users);
-				break;
-			case "categories":
-				List<Category> categories = this.categoryMapper.findAll();
-				attributes.put("categories", categories);
-				break;
+		switch (activeTab) {
+		case "stats":
+			attributes.put("stats", null);
+			break;
+		case "posts":
+			List<Post> posts = this.postMapper.findPostsBetweenRange(startDateStr + " 00:00:00",
+					endDateStr + " 23:59:59");
+			attributes.put("posts", posts);
+			break;
+		case "users":
+			List<User> users = this.userMapper.findAll();
+			attributes.put("users", users);
+			break;
+		case "categories":
+			List<Category> categories = this.categoryMapper.findAll();
+			attributes.put("categories", categories);
+			break;
 		}
 		return attributes;
 	}
-	
+
 	@Override
 	public Map<String, Object> getPostEditJson(Long postId) {
 		Post post = this.postMapper.findById(postId);
@@ -114,14 +115,14 @@ public class DashboardServiceImpl implements DashboardService{
 		}
 		return attributes;
 	}
-	
+
 	@Override
 	public Map<String, Object> getNumOfPostsByMonthForBarChart() {
 		Map<String, Object> attributes = new HashMap<>();
 		List<Long> postsNumList = new ArrayList<>();
 		List<String> monthsList = new ArrayList<>();
 		int currMonth = Calendar.getInstance().get(Calendar.MONTH);
-		for(int i = currMonth; i < currMonth + 12; i ++ ) {
+		for (int i = currMonth; i < currMonth + 12; i++) {
 			Month month = Month.values()[i < 11 ? i + 1 : i - 11]; // January = 0
 			Long numOfPosts = this.postMapper.countNumOfPostsByMonth(month.getValue());
 			postsNumList.add(numOfPosts);

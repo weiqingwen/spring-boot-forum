@@ -28,19 +28,18 @@ import com.qingwenwei.web.dto.PostDto;
 
 @Controller
 public class DashboardController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(DashboardController.class);
-	
+
 	@Autowired
 	private PostService postService;
-	
+
 	@Autowired
 	private DashboardService dashboardService;
-	
+
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public String getDashboardPage(Model model,
-			@RequestParam(value = "tab", required = false) String tab,
+	public String getDashboardPage(Model model, @RequestParam(value = "tab", required = false) String tab,
 			@RequestParam(value = "start", required = false) String start,
 			@RequestParam(value = "end", required = false) String end) {
 		Map<String, Object> attributes = this.dashboardService.getDashboard(tab, start, end);
@@ -53,7 +52,7 @@ public class DashboardController {
 		model.addAttribute("end", end);
 		return "forum/dashboard";
 	}
-	
+
 	/*
 	 * return JSON object
 	 */
@@ -70,16 +69,15 @@ public class DashboardController {
 		}
 		return ResponseEntity.accepted().body(attributes);
 	}
-	
+
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/post/edit", method = RequestMethod.POST)
-	public String processPostEdit(
-			@Valid @ModelAttribute("newPostForm") PostDto newPostForm, 
+	public String processPostEdit(@Valid @ModelAttribute("newPostForm") PostDto newPostForm,
 			@RequestParam(value = "tab", required = false) String tab,
 			@RequestParam(value = "start", required = false) String start,
-			@RequestParam(value = "end", required = false) String end,
-			BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-		if(null == newPostForm) {
+			@RequestParam(value = "end", required = false) String end, BindingResult bindingResult, Model model,
+			RedirectAttributes redirectAttributes) {
+		if (null == newPostForm) {
 			throw new BadRequestException("newPostForm cound not be null.");
 		}
 		Map<String, Object> attributes = this.dashboardService.editPost(newPostForm);
@@ -91,7 +89,7 @@ public class DashboardController {
 		redirectAttributes.addFlashAttribute("editResult", "success");
 		return "redirect:/dashboard?tab=" + tab + "&start=" + start + "&end=" + end;
 	}
-	
+
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/post/{postId}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deletePost(@PathVariable Long postId) {
@@ -105,7 +103,7 @@ public class DashboardController {
 		}
 		return ResponseEntity.ok().build();
 	}
-	
+
 	@RequestMapping(value = "/dashboard/numOfPostsByCategories", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getNumsOfPostsByCategories() {
 		Map<String, Object> attributes = this.dashboardService.getNumOfPostsByCategoriesForPieChart();
@@ -114,7 +112,7 @@ public class DashboardController {
 		}
 		return ResponseEntity.ok().body(attributes);
 	}
-	
+
 	@RequestMapping(value = "/dashboard/numOfPostsByMonths", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getNumsOfPostsBymonths() {
 		Map<String, Object> attributes = this.dashboardService.getNumOfPostsByMonthForBarChart();

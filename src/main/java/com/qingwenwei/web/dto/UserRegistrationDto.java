@@ -1,13 +1,13 @@
 package com.qingwenwei.web.dto;
 
 public class UserRegistrationDto {
-	
+
 	private String username;
-	
+
 	private String email;
-	
+
 	private String password;
-	
+
 	private String matchingPassword;
 
 	public String getUsername() {
@@ -47,5 +47,5 @@ public class UserRegistrationDto {
 		return "UserRegistrationDto [username=" + username + ", email=" + email + ", password=" + password
 				+ ", matchingPassword=" + matchingPassword + "]";
 	}
-	
+
 }

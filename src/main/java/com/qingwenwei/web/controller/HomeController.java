@@ -13,13 +13,13 @@ import com.qingwenwei.service.PostService;
 
 @Controller
 public class HomeController {
-	
+
 	// this variable should be declared in configuration file
 	private static Integer pageSize = 10;
-	
+
 	@Autowired
 	private PostService postService;
-	
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String getHomePostsByPage(Model model, @RequestParam(value = "p", required = false) Integer pageNum) {
 		int currPage = pageNum == null ? 1 : pageNum;
@@ -30,7 +30,7 @@ public class HomeController {
 		model.addAllAttributes(attributes);
 		return "forum/home";
 	}
-	
+
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
 	public String forbidden() {
 		return "error/403";

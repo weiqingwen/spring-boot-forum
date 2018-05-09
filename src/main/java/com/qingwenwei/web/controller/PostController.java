@@ -31,19 +31,19 @@ import com.qingwenwei.web.dto.PostDto;
 public class PostController {
 
 	private static final Logger logger = LoggerFactory.getLogger(PostController.class);
-	
+
 	@Autowired
 	private PostService postService;
-	
+
 	@Autowired
 	private CategoryService categoryService;
-	
+
 	@Autowired
 	private CommentService commentService;
-	
+
 	@Autowired
 	private NewPostFormValidator newPostValidator;
-	
+
 	@Autowired
 	ApplicationEventPublisher eventPublisher;
 
@@ -56,7 +56,7 @@ public class PostController {
 		model.addAttribute(attributes);
 		return "fragments/posts-list";
 	}
-	
+
 	@RequestMapping(value = "/post/{postId}", method = RequestMethod.GET)
 	public String getPost(Model model, @PathVariable Long postId) {
 		if (null == postId) {
@@ -69,7 +69,7 @@ public class PostController {
 		model.addAllAttributes(attributes);
 		return "forum/post";
 	}
-	
+
 	@RequestMapping(value = "/new/{categoryName}", method = RequestMethod.GET)
 	public String displayNewPostPageWithCategory(Model model, @PathVariable String categoryName) {
 		if (null == categoryName) {
@@ -82,7 +82,7 @@ public class PostController {
 		model.addAllAttributes(attributes);
 		return "forum/new-post";
 	}
-	
+
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String displayNewPostPage(Model model) {
 		Map<String, Object> attributes = this.categoryService.getNewPostPageWithCategorySelect();
@@ -92,9 +92,10 @@ public class PostController {
 		model.addAllAttributes(attributes);
 		return "forum/new-post";
 	}
-	
+
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public String processNewPost(@Valid @ModelAttribute("postDto") PostDto postDto, BindingResult bindingResult, Model model) {
+	public String processNewPost(@Valid @ModelAttribute("postDto") PostDto postDto, BindingResult bindingResult,
+			Model model) {
 		if (null == postDto) {
 			throw new BadRequestException("NewPostForm cound not be null.");
 		}
@@ -112,9 +113,10 @@ public class PostController {
 		}
 		return "redirect:/";
 	}
-	
+
 	@RequestMapping(value = "/post/{postId}", method = RequestMethod.POST)
-	public String processNewComment(@PathVariable Long postId, @Valid @ModelAttribute("commentDto") CommentDto commentDto) {
+	public String processNewComment(@PathVariable Long postId,
+			@Valid @ModelAttribute("commentDto") CommentDto commentDto) {
 		if (null == postId && null == commentDto) {
 			throw new BadRequestException("Path variable postId and newCommentForm cound not be null.");
 		}
@@ -126,5 +128,5 @@ public class PostController {
 		this.commentService.save(comment);
 		return "redirect:/post/{postId}";
 	}
-	
+
 }

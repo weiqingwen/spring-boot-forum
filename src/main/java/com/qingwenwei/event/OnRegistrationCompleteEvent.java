@@ -10,7 +10,7 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
 	private final String username;
 	private final String appUrl;
 	private final Locale locale;
-	
+
 	public OnRegistrationCompleteEvent(String username, String appUrl, Locale locale) {
 		super(username);
 		this.username = username;

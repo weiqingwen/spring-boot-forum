@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 
 @Service("emailService")
 public class EmailService {
-	
+
 	@Autowired
 	private JavaMailSender mailSender;
-	
+
 	// asynchronous function
 	// requires EnableAsync annotation in application class - main method
 	@Async

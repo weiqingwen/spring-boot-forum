@@ -18,7 +18,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	private CategoryMapper categoryMapper;
-	
+
 	@Override
 	public int save(Category category) {
 		return this.categoryMapper.save(category);

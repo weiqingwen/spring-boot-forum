@@ -34,30 +34,29 @@ import com.qingwenwei.web.dto.UserSettingsDto;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-	
+
 	@Autowired
 	private UserMapper userMapper;
-	
+
 	@Autowired
 	private PostMapper postMapper;
-	
+
 	@Autowired
 	private CommentMapper commentMapper;
-	
+
 	@Autowired
 	private VerificationTokenMapper verificationTokenMapper;
-	
+
 	@Autowired
 	private StorageService storageService;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	@Autowired
 	private ApplicationEventPublisher evenPublisher;
-	
 
 	@Override
 	public User findById(Long id) {
@@ -73,7 +72,7 @@ public class UserServiceImpl implements UserService {
 	public User findByUsername(String username) {
 		return userMapper.findByUsername(username);
 	}
-	
+
 	@Override
 	public int save(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -114,14 +113,12 @@ public class UserServiceImpl implements UserService {
 	public Map<String, Object> updateUserProfile(UserSettingsDto userSettingsDto) {
 		Map<String, Object> attributes = new HashMap<>();
 		String authenticatedUsername = this.findAuthenticatedUser().getUsername();
-		if (null == authenticatedUsername || authenticatedUsername.equalsIgnoreCase("")
-				|| null == userSettingsDto
-				|| userSettingsDto.getEmail().isEmpty()
-				|| userSettingsDto.getEmail().equals("")) {
+		if (null == authenticatedUsername || authenticatedUsername.equalsIgnoreCase("") || null == userSettingsDto
+				|| userSettingsDto.getEmail().isEmpty() || userSettingsDto.getEmail().equals("")) {
 			attributes.put("uploadResultMessage", "uploadFailure");
 			return attributes;
 		}
-		
+
 		// update user profile
 		User user = this.storageService.store(userSettingsDto.getAvatar(), authenticatedUsername);
 		if (null == user) {
@@ -131,7 +128,7 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(userSettingsDto.getEmail());
 		user.setBio(userSettingsDto.getBio());
 		this.userMapper.update(user);
-		
+
 		// return attributes
 		attributes.put("user", user);
 		attributes.put("uploadResultMessage", "uploadSuccess");
@@ -153,7 +150,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Map<String, Object> registerUserAccount(UserRegistrationDto userDto, HttpServletRequest request) {
 		Map<String, Object> attributes = new HashMap<>();
-		
+
 		// save newly registered user
 		User user = new User();
 		user.setPassword(this.bCryptPasswordEncoder.encode(userDto.getPassword()));
@@ -165,19 +162,19 @@ public class UserServiceImpl implements UserService {
 
 		// save new user and get number of affected row
 		int affectedRow = userMapper.save(user);
-		
+
 		// publish registration event
 		String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort();
 		Locale locale = request.getLocale();
 		OnRegistrationCompleteEvent event = new OnRegistrationCompleteEvent(user.getUsername(), appUrl, locale);
 		this.evenPublisher.publishEvent(event);
-		
+
 		// populate attributes
 		String registrationResult = affectedRow == 1 ? "success" : "failure";
 		attributes.put("userRegistrationResult", registrationResult);
 		return attributes;
 	}
-	
+
 	@Override
 	public Map<String, Object> confirmUserRegistrationWithToken(String token) {
 		Map<String, Object> attributes = new HashMap<>();

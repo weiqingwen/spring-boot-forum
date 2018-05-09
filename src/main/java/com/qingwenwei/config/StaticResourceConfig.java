@@ -7,12 +7,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 public class StaticResourceConfig extends WebMvcConfigurerAdapter {
-	
+
 	@Value("${resource.staticResourceLocation}")
 	private String staticResourceLocation;
-	
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/avatar/**").addResourceLocations("file:" + staticResourceLocation);
-    }
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/avatar/**").addResourceLocations("file:" + staticResourceLocation);
+	}
 }

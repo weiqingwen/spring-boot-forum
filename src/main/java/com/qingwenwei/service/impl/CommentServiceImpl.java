@@ -17,17 +17,17 @@ import com.qingwenwei.service.CommentService;
 import com.qingwenwei.web.dto.CommentDto;
 
 @Service("commentService")
-public class CommentServiceImpl implements CommentService{
+public class CommentServiceImpl implements CommentService {
 
 	@Autowired
 	private PostMapper postMapper;
-	
+
 	@Autowired
 	private UserMapper userMapper;
-	
+
 	@Autowired
 	private CommentMapper commentMapper;
-	
+
 	@Override
 	public void save(Comment comment) {
 		Post post = this.postMapper.findById(comment.getPostId());
@@ -55,5 +55,5 @@ public class CommentServiceImpl implements CommentService{
 		comment.setDateCreated(new Timestamp(System.currentTimeMillis()));
 		return comment;
 	}
-	
+
 }
