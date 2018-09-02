@@ -3,7 +3,7 @@ package com.qingwenwei.persistence.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.data.repository.query.Param;
 
 import com.qingwenwei.persistence.model.Post;
 

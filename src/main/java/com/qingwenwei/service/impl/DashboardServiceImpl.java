@@ -22,7 +22,6 @@ import com.qingwenwei.persistence.model.Category;
 import com.qingwenwei.persistence.model.Post;
 import com.qingwenwei.persistence.model.User;
 import com.qingwenwei.service.DashboardService;
-import com.qingwenwei.web.controller.DashboardController;
 import com.qingwenwei.web.dto.PostDto;
 
 @Service("dashboardService")
