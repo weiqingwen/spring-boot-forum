@@ -14,16 +14,14 @@ import com.qingwenwei.service.PostService;
 @Controller
 public class HomeController {
 
-	// this variable should be declared in configuration file
-	private static Integer pageSize = 10;
-
 	@Autowired
 	private PostService postService;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String getHomePostsByPage(Model model, @RequestParam(value = "p", required = false) Integer pageNum) {
-		int currPage = pageNum == null ? 1 : pageNum;
-		Map<String, Object> attributes = this.postService.findPostsByPage(currPage, pageSize);
+	public String getHomePostsByPage(Model model, 
+			@RequestParam(value = "p", required = false, defaultValue="1") Integer pageNum,
+			@RequestParam(value = "size", required = false, defaultValue="10") Integer pageSize) {
+		Map<String, Object> attributes = this.postService.findPostsByPage(pageNum, pageSize);
 		if (null == attributes) {
 			return "error/404";
 		}

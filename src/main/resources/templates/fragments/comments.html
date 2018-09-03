@@ -10,9 +10,8 @@
 				<div class="media">
 					<div class="media-left">
 						<a th:href="@{/user/{username}(username=${comment.user.id})}">
-		                       <img class="media-object"
-							th:src="${'../' + comment.user.avatarLocation}" alt="profile_pic" class="img-rounded"
-							width="50" height="50">
+							<img class="media-object img-rounded" th:src="${'../' + comment.user.avatarLocation}"
+							alt="profile_pic" width="50" height="50">
 						</a>
 					</div>
 					<div class="media-body">
