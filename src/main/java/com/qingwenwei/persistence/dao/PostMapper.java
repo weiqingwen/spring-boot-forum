@@ -3,7 +3,7 @@ package com.qingwenwei.persistence.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.Param;
 
 import com.qingwenwei.persistence.model.Post;
 
@@ -24,10 +24,10 @@ public interface PostMapper {
 
 	List<Post> findPostsByUserId(Long userId);
 
-	List<Post> findPostsBetweenRange(@Param("startDateStr") String startDateStr,
-			@Param("endDateStr") String endDateStr);
+	List<Post> findPostsBetweenRange(@Param("startDateStr")String startDate, @Param("endDateStr")String endDate);
 
 	Long countNumOfPostsByCategoryId(Long categoryId);
 
-	Long countNumOfPostsByMonth(int month);
+	Long countNumOfPostsByMonth(Integer month);
+	
 }

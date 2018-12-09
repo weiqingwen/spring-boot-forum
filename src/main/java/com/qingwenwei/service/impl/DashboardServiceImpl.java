@@ -40,19 +40,18 @@ public class DashboardServiceImpl implements DashboardService {
 	private CategoryMapper categoryMapper;
 
 	@Override
-	public Map<String, Object> getDashboard(String tab, String startDateStr, String endDateStr) {
+	public Map<String, Object> getDashboard(String tab, String startDate, String endDate) {
 		String activeTab = tab == null ? "stats" : tab; // default tab
 		Map<String, Object> attributes = new HashMap<>();
 		attributes.put("activeTab", activeTab);
-		// attributes.put("customWidget", "bootstrap-datetimepicker");
 		attributes.put("newPostForm", new PostDto());
 		switch (activeTab) {
 		case "stats":
 			attributes.put("stats", null);
 			break;
 		case "posts":
-			List<Post> posts = this.postMapper.findPostsBetweenRange(startDateStr + " 00:00:00",
-					endDateStr + " 23:59:59");
+			List<Post> posts = this.postMapper.findPostsBetweenRange(startDate + " 00:00:00", 
+					endDate + " 23:59:59");
 			attributes.put("posts", posts);
 			break;
 		case "users":
