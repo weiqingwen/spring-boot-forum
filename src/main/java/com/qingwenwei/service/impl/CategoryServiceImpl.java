@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
 		attributes.put("title", PageMessage.MESSAGE_NEW_POST_CN);
 		PostDto newPostForm = new PostDto();
 		newPostForm.setCategory(category.getName());
-		attributes.put("newPostForm", newPostForm);
+		attributes.put("postDto", newPostForm);
 		attributes.put("isQuickNewPost", false);
 		return attributes;
 	}
